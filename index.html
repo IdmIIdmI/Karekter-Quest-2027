@@ -3,165 +3,369 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Karakter Quest 2027</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>KARAKTER QUEST 2027</title>
 <style>
+*{box-sizing:border-box}
 body{
- margin:0;padding:20px;
+ margin:0;background:#10291f;color:#fff;
  font-family:Arial,sans-serif;
- background:linear-gradient(135deg,#123c35,#187b64);
- color:#fff;text-align:center;
 }
-.card{
- background:white;color:#173b32;
- max-width:480px;margin:30px auto;
- padding:25px;border-radius:22px;
- box-shadow:0 8px 25px #0004;
+header{
+ text-align:center;padding:13px 8px;
+ background:#183d2c;border-bottom:2px solid #b99b55;
 }
-h1{color:#ffe29a;font-size:30px}
-h2{font-size:23px}
-p{font-size:18px;line-height:1.6}
+header h1{font-size:21px;margin:3px}
+header p{font-size:12px;margin:5px;color:#d5e6d9}
+main{max-width:850px;margin:auto;padding:12px}
+#world{
+ display:block;width:100%;height:auto;
+ border:3px solid #c6a65d;border-radius:13px;
+ background:#9ab77c;touch-action:none;
+}
+.info{
+ background:#1d4230;border-radius:12px;
+ padding:12px;margin-top:10px;
+}
+.row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.small{font-size:12px;color:#c9ddce}
 button{
- width:100%;padding:16px;margin:8px 0;
- border:0;border-radius:12px;
- background:#eab83c;color:#173b32;
- font-size:17px;font-weight:bold;
+ border:0;border-radius:10px;padding:13px;
+ background:#c5a45b;color:#182d20;
+ font-weight:bold;font-size:15px;
 }
-.choice{background:#e5f1eb}
-#game,#finish{display:none}
-#feedback{
- background:#e8f5ec;padding:15px;
- border-radius:12px;color:#173b32;
- margin-top:15px;
+button:active{transform:scale(.97)}
+#interact{width:100%;margin-top:10px;background:#e2bd68}
+.controls{
+ display:grid;grid-template-columns:repeat(3,65px);
+ justify-content:center;gap:6px;margin:12px auto;
 }
+.controls button{height:53px;font-size:22px;padding:5px}
+.controls .empty{visibility:hidden}
+#dialogue{
+ display:none;position:fixed;inset:0;
+ background:#000b;z-index:5;
+ align-items:center;justify-content:center;padding:18px;
+}
+.dialogbox{
+ background:#f7f4e9;color:#183d2c;
+ width:100%;max-width:480px;
+ border-radius:17px;padding:20px;
+ max-height:85vh;overflow:auto;
+}
+.dialogbox h2{margin-top:0}
+.choice{
+ display:block;width:100%;margin:9px 0;
+ background:#245d40;color:white;text-align:left;
+}
+#journal{font-size:13px;line-height:1.7}
+#notice{color:#f1d68f;min-height:18px;font-size:13px}
 </style>
 </head>
 <body>
 
+<header>
 <h1>🌿 KARAKTER QUEST 2027</h1>
-<p>Misi Membina Insan Hebat</p>
+<p>Pengembaraan Bermula di Borneo</p>
+</header>
 
-<div class="card" id="home">
-<h2>🏆 Selamat Datang, Wira!</h2>
-<p>Beranikah kamu membuat pilihan yang betul?</p>
-<p>Selesaikan 5 misi dan buktikan karakter hebat kamu!</p>
-<button onclick="mula()">🚀 MULAKAN MISI</button>
+<main>
+<div class="row info">
+ <div>
+  <b id="playerLabel">Wira</b>
+  <div class="small">Pengembara Borneo</div>
+ </div>
+ <div>
+  <b id="placeLabel">Kampung Sungai</b>
+  <div class="small">Dunia Pertama</div>
+ </div>
 </div>
 
-<div class="card" id="game">
-<h2 id="tajuk"></h2>
-<p id="cerita"></p>
-<div id="pilihan"></div>
-<div id="feedback" style="display:none"></div>
-<button id="seterusnya" style="display:none" onclick="next()">MISI SETERUSNYA ➜</button>
+<canvas id="world" width="800" height="500"></canvas>
+
+<div class="info">
+ <div id="notice">Terokai kawasan. Bergerak menggunakan butang arah.</div>
+ <button id="interact" onclick="interact()" disabled>
+  Belum ada interaksi
+ </button>
 </div>
 
-<div class="card" id="finish">
-<h2>🏆 TAHNIAH!</h2>
-<p>Kamu telah menyelesaikan semua misi!</p>
-<h1 id="markah" style="color:#17665c"></h1>
-<p id="tahap"></p>
-<button onclick="mula()">MAIN SEMULA</button>
+<div class="controls">
+ <span class="empty"></span>
+ <button onclick="move(0,-1)">▲</button>
+ <span class="empty"></span>
+ <button onclick="move(-1,0)">◀</button>
+ <button onclick="move(0,1)">▼</button>
+ <button onclick="move(1,0)">▶</button>
+</div>
+
+<div class="info">
+ <b>📖 Jurnal Pengembaraan</b>
+ <p class="small">Perjalanan dan kesan tindakanmu di dunia ini.</p>
+ <div id="journal">Belum ada catatan.</div>
+</div>
+
+<div class="info">
+ <b>🌱 Dunia yang Berubah</b>
+ <p class="small" id="worldStatus">
+ Sungai, hutan dan kehidupan kampung menanti tindakanmu.
+ </p>
+</div>
+</main>
+
+<div id="dialogue">
+ <div class="dialogbox">
+  <h2 id="dialogTitle"></h2>
+  <p id="dialogText"></p>
+  <div id="dialogChoices"></div>
+  <button onclick="closeDialogue()" style="width:100%;margin-top:8px">
+   Kembali menjelajah
+  </button>
+ </div>
 </div>
 
 <script>
-const data=[
-{
-t:"🍱 MISI 1: AMANAH",
-c:"Kamu jumpa dompet di kantin sekolah. Apa tindakan kamu?",
-p:[
-["Simpan duit itu",0,"Bukan amanah mengambil hak orang."],
-["Serahkan kepada guru",10,"Bagus! Kamu seorang yang amanah."],
-["Biarkan sahaja",3,"Kamu boleh membantu mencari pemiliknya."]
-]},
-{
-t:"🤝 MISI 2: KERJASAMA",
-c:"Rakan kamu tidak pandai menyiapkan tugasan. Apa tindakan kamu?",
-p:[
-["Biarkan dia",0,"Kita perlu saling membantu."],
-["Bantu dan ajar dia",10,"Hebat! Itulah semangat kerjasama."],
-["Marah kepadanya",0,"Kita perlu bersabar dengan rakan."]
-]},
-{
-t:"🌳 MISI 3: CINTA ALAM",
-c:"Kamu nampak sampah di tepi sungai kampung. Apa tindakan kamu?",
-p:[
-["Buang sampah ke sungai",0,"Sungai mesti dijaga."],
-["Kutip dan buang dengan betul",10,"Syabas! Kamu menjaga alam sekitar."],
-["Tinggalkan sahaja",2,"Kebersihan tanggungjawab bersama."]
-]},
-{
-t:"❤️ MISI 4: PRIHATIN",
-c:"Seorang rakan terjatuh ketika bermain. Apa tindakan kamu?",
-p:[
-["Ketawakan dia",0,"Jangan menyakiti hati orang."],
-["Bantu dia bangun",10,"Bagus! Kamu prihatin."],
-["Berlari meninggalkannya",0,"Rakan memerlukan bantuan kita."]
-]},
-{
-t:"⭐ MISI 5: JUJUR",
-c:"Kamu terpecahkan barang sekolah. Guru bertanya siapa yang melakukannya.",
-p:[
-["Mengaku dengan jujur",10,"Tahniah! Kejujuran memerlukan keberanian."],
-["Salahkan rakan",0,"Jangan menipu atau menyalahkan orang."],
-["Diam sahaja",2,"Berani mengaku kesalahan ialah sikap mulia."]
-]}
+const canvas=document.getElementById("world");
+const ctx=canvas.getContext("2d");
+
+let player={x:95,y:420};
+let playerName=localStorage.getItem("kp_name")||"Wira";
+let current=null;
+
+const places=[
+ {
+  id:0,name:"Jeti Sungai",x:145,y:340,
+  icon:"🛶",title:"Dompet di Jeti",
+  story:"Di tepi jeti, kamu terlihat sebuah dompet. Tiada sesiapa di situ. Tidak lama kemudian, seorang penduduk tua datang mencari sesuatu dengan wajah gelisah.",
+  choices:[
+   {label:"Panggil penduduk itu dan serahkan dompet",result:"Penduduk itu menarik nafas lega. Dia berterima kasih kerana kamu memilih untuk membantu. Kepercayaan mula terjalin di kampung ini.",journal:"Kamu memulangkan barang yang bukan milikmu."},
+   {label:"Simpan dahulu dan teruskan perjalanan",result:"Kamu meneruskan perjalanan. Namun penduduk itu masih mencari barangnya. Perkara ini mungkin akan kembali menghantuimu.",journal:"Kamu meninggalkan satu urusan yang belum diselesaikan."}
+  ]
+ },
+ {
+  id:1,name:"Rumah Panjang",x:365,y:160,
+  icon:"🏡",title:"Kesusahan Jiran",
+  story:"Di rumah panjang, seorang rakan sedang berusaha menyiapkan tugasan. Dia kelihatan buntu. Penduduk lain sibuk dengan urusan masing-masing.",
+  choices:[
+   {label:"Duduk bersama dan bantu dia memahami tugasan",result:"Rakanmu mula memahami tugasan itu. Kamu berdua menyelesaikannya melalui kerjasama.",journal:"Kamu memilih untuk berkongsi ilmu dan membantu."},
+   {label:"Teruskan perjalanan kerana ada urusan sendiri",result:"Kamu meneruskan perjalanan. Rakanmu masih berusaha mencari jalan penyelesaian.",journal:"Kamu memilih untuk meneruskan urusan sendiri."}
+  ]
+ },
+ {
+  id:2,name:"Tebing Sungai",x:620,y:330,
+  icon:"🌊",title:"Sungai yang Tercemar",
+  story:"Kamu sampai ke tebing sungai. Beberapa sampah terapung berhampiran kawasan penduduk mengambil air. Sungai yang dahulu jernih semakin kotor.",
+  choices:[
+   {label:"Kutip sampah dan bersihkan kawasan",result:"Tebing sungai kembali bersih. Penduduk yang lalu mula turut membantu menjaga kawasan itu.",journal:"Kamu mengambil tanggungjawab terhadap kebersihan persekitaran."},
+   {label:"Biarkan kerana bukan kamu yang membuangnya",result:"Sampah terus hanyut mengikut arus. Keadaan sungai belum berubah.",journal:"Kamu membiarkan masalah itu tanpa tindakan."}
+  ]
+ },
+ {
+  id:3,name:"Laluan Hutan",x:630,y:105,
+  icon:"🌳",title:"Rakan Terjatuh",
+  story:"Dalam perjalanan melalui laluan hutan, kamu terdengar suara meminta tolong. Seorang rakan terjatuh dan sukar untuk bangun.",
+  choices:[
+   {label:"Berhenti dan bantu rakan",result:"Kamu membantunya bangun dan memastikan dia selamat sebelum meneruskan perjalanan.",journal:"Kamu mengutamakan keselamatan dan keadaan orang lain."},
+   {label:"Terus berjalan kerana takut terlewat",result:"Kamu meninggalkan kawasan itu. Rakanmu masih memerlukan pertolongan.",journal:"Kamu meneruskan perjalanan walaupun ada orang memerlukan bantuan."}
+  ]
+ },
+ {
+  id:4,name:"Balai Kampung",x:350,y:405,
+  icon:"🏠",title:"Barang yang Rosak",
+  story:"Ketika membantu di balai kampung, kamu tidak sengaja merosakkan satu barang milik penduduk. Tiada sesiapa melihat kejadian itu.",
+  choices:[
+   {label:"Mengaku dan bertanggungjawab",result:"Penduduk itu mendengar penjelasanmu. Walaupun barang itu rosak, kejujuran membuka jalan untuk menyelesaikan masalah.",journal:"Kamu mengakui kesilapan dan bersedia bertanggungjawab."},
+   {label:"Diam dan berpura-pura tidak tahu",result:"Kamu meninggalkan balai. Namun masalah itu masih belum diselesaikan.",journal:"Kamu menyembunyikan kesilapan yang berlaku."}
+  ]
+ }
 ];
 
-let nombor=0,skor=0,selesai=false;
+let completed=JSON.parse(localStorage.getItem("kp_done")||"[]");
+let journal=JSON.parse(localStorage.getItem("kp_journal")||"[]");
+let effects=JSON.parse(localStorage.getItem("kp_effects")||"{}");
 
-function mula(){
- nombor=0;skor=0;
- document.getElementById("home").style.display="none";
- document.getElementById("finish").style.display="none";
- document.getElementById("game").style.display="block";
- papar();
+function save(){
+ try{
+  localStorage.setItem("kp_done",JSON.stringify(completed));
+  localStorage.setItem("kp_journal",JSON.stringify(journal));
+  localStorage.setItem("kp_effects",JSON.stringify(effects));
+  localStorage.setItem("kp_pos",JSON.stringify(player));
+ }catch(e){}
 }
 
-function papar(){
- selesai=false;
- let m=data[nombor];
- document.getElementById("tajuk").textContent=m.t;
- document.getElementById("cerita").textContent=m.c;
- document.getElementById("feedback").style.display="none";
- document.getElementById("seterusnya").style.display="none";
- let tempat=document.getElementById("pilihan");
- tempat.innerHTML="";
- m.p.forEach((pilihan,i)=>{
-  let b=document.createElement("button");
-  b.className="choice";
-  b.textContent=String.fromCharCode(65+i)+". "+pilihan[0];
-  b.onclick=()=>jawab(i);
-  tempat.appendChild(b);
+try{
+ const saved=JSON.parse(localStorage.getItem("kp_pos")||"null");
+ if(saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)){
+  player=saved;
+ }
+}catch(e){}
+
+document.getElementById("playerLabel").textContent=playerName;
+
+function draw(){
+ const w=800,h=500;
+ ctx.clearRect(0,0,w,h);
+
+ // Tanah
+ ctx.fillStyle="#9fbd80";
+ ctx.fillRect(0,0,w,h);
+
+ // Kawasan hutan
+ ctx.fillStyle="#628b55";
+ ctx.fillRect(0,0,800,75);
+ ctx.fillRect(0,75,75,425);
+ ctx.fillRect(725,75,75,425);
+
+ // Sungai
+ ctx.beginPath();
+ ctx.moveTo(0,280);ctx.bezierCurveTo(180,210,270,380,440,300);
+ ctx.bezierCurveTo(580,230,670,270,800,210);
+ ctx.lineTo(800,280);
+ ctx.bezierCurveTo(650,340,570,300,440,350);
+ ctx.bezierCurveTo(260,420,160,270,0,330);
+ ctx.closePath();
+ ctx.fillStyle=effects.river?"#64b9bd":"#4b9ba8";
+ ctx.fill();
+
+ // Laluan
+ ctx.strokeStyle="#d9c28d";ctx.lineWidth=35;
+ ctx.lineCap="round";ctx.beginPath();
+ ctx.moveTo(90,420);ctx.lineTo(350,405);
+ ctx.lineTo(365,160);ctx.lineTo(630,105);
+ ctx.lineTo(620,330);ctx.stroke();
+
+ // Pokok
+ for(let i=0;i<18;i++){
+  let x=(i*137+45)%780;
+  let y=(i*83+30)%460;
+  if(y>220 && y<350 && x<700)continue;
+  ctx.fillStyle=effects.forest?"#286d42":"#386b3c";
+  ctx.beginPath();ctx.arc(x,y,19,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#765637";ctx.fillRect(x-4,y+12,8,13);
+ }
+
+ // Lokasi
+ places.forEach(p=>{
+  ctx.beginPath();ctx.arc(p.x,p.y,27,0,Math.PI*2);
+  ctx.fillStyle=completed.includes(p.id)?"#e3d4a1":"#fff4cf";
+  ctx.fill();
+  ctx.strokeStyle="#34583b";ctx.lineWidth=3;ctx.stroke();
+  ctx.font="25px Arial";ctx.textAlign="center";
+  ctx.fillText(p.icon,p.x,p.y+9);
+  ctx.font="bold 14px Arial";ctx.fillStyle="#173d29";
+  ctx.fillText(p.name,p.x,p.y+48);
+  if(completed.includes(p.id)){
+   ctx.font="bold 17px Arial";ctx.fillText("✓",p.x+22,p.y-20);
+  }
  });
+
+ // Pemain
+ ctx.beginPath();ctx.arc(player.x,player.y,16,0,Math.PI*2);
+ ctx.fillStyle="#f5d36d";ctx.fill();
+ ctx.strokeStyle="#193c2b";ctx.lineWidth=4;ctx.stroke();
+ ctx.fillStyle="#193c2b";ctx.font="bold 12px Arial";
+ ctx.fillText("KAMU",player.x,player.y-24);
+
+ checkNear();
 }
 
-function jawab(i){
- if(selesai)return;
- selesai=true;
- let m=data[nombor],p=m.p[i];
- skor+=p[1];
- document.getElementById("feedback").textContent=
- p[2]+" Markah: "+p[1]+"/10";
- document.getElementById("feedback").style.display="block";
- document.getElementById("seterusnya").style.display="block";
- document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
-}
-
-function next(){
- nombor++;
- if(nombor<data.length){
-  papar();
+function checkNear(){
+ let nearest=null,dist=9999;
+ places.forEach(p=>{
+  if(completed.includes(p.id))return;
+  let d=Math.hypot(player.x-p.x,player.y-p.y);
+  if(d<dist){dist=d;nearest=p;}
+ });
+ const btn=document.getElementById("interact");
+ const note=document.getElementById("notice");
+ if(nearest && dist<75){
+  current=nearest;
+  btn.disabled=false;
+  btn.textContent="Berinteraksi: "+nearest.name;
+  note.textContent="Kamu berada berhampiran "+nearest.name+".";
  }else{
-  document.getElementById("game").style.display="none";
-  document.getElementById("finish").style.display="block";
-  document.getElementById("markah").textContent=skor+"/50";
-  document.getElementById("tahap").textContent=
-  skor>=40?"WIRA KARAKTER HEBAT! 🏆":
-  skor>=25?"WIRA SEDANG BERKEMBANG! 🌟":
-  "BAKAL WIRA! TERUS BELAJAR! 🌱";
+  current=null;
+  btn.disabled=true;
+  btn.textContent="Terokai kawasan dahulu";
+  note.textContent="Bergerak mendekati lokasi untuk berinteraksi.";
  }
 }
+
+function move(dx,dy){
+ player.x=Math.max(25,Math.min(775,player.x+dx*23));
+ player.y=Math.max(25,Math.min(475,player.y+dy*23));
+ save();draw();
+}
+
+document.addEventListener("keydown",e=>{
+ const keys={
+  ArrowUp:[0,-1],w:[0,-1],
+  ArrowDown:[0,1],s:[0,1],
+  ArrowLeft:[-1,0],a:[-1,0],
+  ArrowRight:[1,0],d:[1,0]
+ };
+ if(keys[e.key]){
+  e.preventDefault();move(...keys[e.key]);
+ }
+});
+
+function interact(){
+ if(!current)return;
+ const p=current;
+ document.getElementById("dialogTitle").textContent=p.title;
+ document.getElementById("dialogText").textContent=p.story;
+ const box=document.getElementById("dialogChoices");
+ box.innerHTML="";
+ p.choices.forEach((c,i)=>{
+  const b=document.createElement("button");
+  b.className="choice";b.textContent=c.label;
+  b.onclick=()=>choose(p,i);
+  box.appendChild(b);
+ });
+ document.getElementById("dialogue").style.display="flex";
+}
+
+function choose(p,index){
+ const c=p.choices[index];
+ document.getElementById("dialogTitle").textContent=p.title;
+ document.getElementById("dialogText").textContent=c.result;
+ document.getElementById("dialogChoices").innerHTML=
+  "<p><b>Catatan perjalanan:</b></p><p>"+c.journal+"</p>";
+ completed.push(p.id);
+ journal.push(c.journal);
+ effects[p.id]=index;
+ save();updateJournal();draw();
+ document.getElementById("notice").textContent="Satu peristiwa telah mengubah perjalananmu.";
+}
+
+function closeDialogue(){
+ document.getElementById("dialogue").style.display="none";
+ current=null;draw();updateJournal();
+}
+
+function updateJournal(){
+ const j=document.getElementById("journal");
+ j.innerHTML="";
+ if(journal.length===0){j.textContent="Belum ada catatan.";return;}
+ journal.forEach((item,i)=>{
+  const p=document.createElement("p");
+  p.textContent=(i+1)+". "+item;
+  j.appendChild(p);
+ });
+ const status=document.getElementById("worldStatus");
+ const river=effects[2]===0;
+ const village=effects[1]===0;
+ const forest=effects[3]===0;
+ status.textContent=
+  (river?"Sungai mula dibersihkan. ":"Sungai masih memerlukan perhatian. ")+
+  (village?"Hubungan penduduk semakin erat. ":"Penduduk masih membawa urusan masing-masing. ")+
+  (forest?"Rakan yang terjatuh telah dibantu. ":"Ada penduduk yang masih memerlukan bantuan. ");
+ if(completed.length===5){
+  status.textContent+=" Semua lima peristiwa di dunia pertama telah dilalui. Pengembaraan ini belum berakhir.";
+ }
+}
+
+updateJournal();draw();
 </script>
 </body>
 </html>
