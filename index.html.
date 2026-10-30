@@ -6,250 +6,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Karakter Quest 2027</title>
 <style>
-*{box-sizing:border-box}
 body{
- margin:0;font-family:Arial,sans-serif;
- background:linear-gradient(145deg,#102c38,#17665c);
- color:#fff;min-height:100vh;padding:18px;
+ margin:0;padding:20px;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#123c35,#187b64);
+ color:#fff;text-align:center;
 }
-.container{max-width:560px;margin:auto}
-header{text-align:center;padding:20px 5px}
-.logo{font-size:48px}
-h1{font-size:30px;margin:8px 0;color:#ffe49b}
-.subtitle{color:#d2eee6;font-size:14px}
-.panel{
- background:#fff;color:#173c39;border-radius:22px;
- padding:22px;margin:14px 0;
- box-shadow:0 8px 25px #0003;
+.card{
+ background:white;color:#173b32;
+ max-width:480px;margin:30px auto;
+ padding:25px;border-radius:22px;
+ box-shadow:0 8px 25px #0004;
 }
-.tag{
- display:inline-block;background:#e4f4ec;
- color:#17665c;padding:7px 13px;
- border-radius:30px;font-size:12px;font-weight:bold;
-}
-h2{font-size:22px;margin:14px 0}
-.story{font-size:17px;line-height:1.65}
+h1{color:#ffe29a;font-size:30px}
+h2{font-size:23px}
+p{font-size:18px;line-height:1.6}
 button{
- width:100%;border:0;border-radius:13px;
- padding:15px;margin:7px 0;
- font-size:16px;font-weight:bold;
- cursor:pointer;
+ width:100%;padding:16px;margin:8px 0;
+ border:0;border-radius:12px;
+ background:#eab83c;color:#173b32;
+ font-size:17px;font-weight:bold;
 }
-.start{background:#f1b83e;color:#29372e}
-.choice{
- background:#edf5f1;color:#173c39;
- text-align:left;border:2px solid #dcebe4;
- line-height:1.4;
+.choice{background:#e5f1eb}
+#game,#finish{display:none}
+#feedback{
+ background:#e8f5ec;padding:15px;
+ border-radius:12px;color:#173b32;
+ margin-top:15px;
 }
-.choice:active{background:#d3eadc}
-.choice:disabled{opacity:.65}
-.next{background:#17665c;color:white}
-.progress{
- height:10px;background:#dcebe4;
- border-radius:20px;overflow:hidden;margin:15px 0;
-}
-.bar{height:100%;background:#e7ae37;width:0%;transition:.3s}
-.feedback{
- padding:15px;border-radius:13px;
- background:#eaf5ed;margin-top:15px;
- line-height:1.6;
-}
-.hidden{display:none}
-.score{text-align:center;font-size:35px;color:#17665c;font-weight:bold}
-footer{text-align:center;font-size:12px;color:#d2eee6;padding:20px}
 </style>
 </head>
 <body>
-<div class="container">
 
-<header>
- <div class="logo">🌿🏆</div>
- <h1>KARAKTER QUEST</h1>
- <div class="subtitle">Misi Membina Insan Hebat · 2027</div>
- <div class="subtitle">Permainan Pembinaan Karakter Murid Tahun 1</div>
-</header>
+<h1>🌿 KARAKTER QUEST 2027</h1>
+<p>Misi Membina Insan Hebat</p>
 
-<div id="home" class="panel">
- <div class="tag">MISI SARAWAK 2027</div>
- <h2>Adakah kamu seorang wira?</h2>
- <p class="story">
- Wira bukan orang yang paling kuat.
- Wira ialah orang yang tahu memilih perkara yang betul,
- walaupun tiada siapa melihatnya.
- <br><br>
- Hari ini kamu akan menghadapi 5 cabaran.
- Setiap pilihan menunjukkan siapa diri kamu sebenarnya!
- </p>
- <button class="start" onclick="startGame()">🚀 MULAKAN MISI</button>
+<div class="card" id="home">
+<h2>🏆 Selamat Datang, Wira!</h2>
+<p>Beranikah kamu membuat pilihan yang betul?</p>
+<p>Selesaikan 5 misi dan buktikan karakter hebat kamu!</p>
+<button onclick="mula()">🚀 MULAKAN MISI</button>
 </div>
 
-<div id="game" class="panel hidden">
- <div class="tag" id="mission">MISI 1</div>
- <div class="progress"><div class="bar" id="bar"></div></div>
- <div id="scene">
-  <h2 id="title"></h2>
-  <p class="story" id="story"></p>
-  <div id="choices"></div>
- </div>
- <div id="result" class="hidden">
-  <div class="feedback">
-   <h3 id="feedbackTitle"></h3>
-   <p id="feedbackText"></p>
-  </div>
-  <button class="next" onclick="nextMission()">TERUSKAN ➜</button>
- </div>
+<div class="card" id="game">
+<h2 id="tajuk"></h2>
+<p id="cerita"></p>
+<div id="pilihan"></div>
+<div id="feedback" style="display:none"></div>
+<button id="seterusnya" style="display:none" onclick="next()">MISI SETERUSNYA ➜</button>
 </div>
 
-<div id="ending" class="panel hidden">
- <div class="logo" style="text-align:center">🏆</div>
- <h2 style="text-align:center">MISI SELESAI!</h2>
- <p class="story" style="text-align:center">
- Kamu telah menamatkan Karakter Quest 2027.
- </p>
- <div class="score" id="score"></div>
- <p id="rank" style="text-align:center;font-weight:bold"></p>
- <div class="feedback" id="message"></div>
- <button class="start" onclick="startGame()">🔄 MAIN SEMULA</button>
-</div>
-
-<footer>
-KARAKTER QUEST 2027<br>
-Belajar Memilih. Berani Melakukan. Menjadi Insan.
-</footer>
+<div class="card" id="finish">
+<h2>🏆 TAHNIAH!</h2>
+<p>Kamu telah menyelesaikan semua misi!</p>
+<h1 id="markah" style="color:#17665c"></h1>
+<p id="tahap"></p>
+<button onclick="mula()">MAIN SEMULA</button>
 </div>
 
 <script>
-const missions = [
+const data=[
 {
- title:"🍱 Amanah di Kantin Sekolah",
- story:"Kamu ternampak sebuah dompet kecil di bawah meja kantin. Tiada sesiapa nampak kamu mengambilnya. Apakah tindakan kamu?",
- choices:[
-  ["A. Ambil duitnya dan simpan.",0,"Mengambil barang orang lain tanpa izin bukan amanah."],
-  ["B. Serahkan dompet itu kepada guru.",10,"Hebat! Kamu menjaga amanah dan membantu pemiliknya."],
-  ["C. Biarkan sahaja di situ.",3,"Kamu tidak mengambilnya, tetapi pemiliknya mungkin memerlukan bantuan."]
- ]
-},
+t:"🍱 MISI 1: AMANAH",
+c:"Kamu jumpa dompet di kantin sekolah. Apa tindakan kamu?",
+p:[
+["Simpan duit itu",0,"Bukan amanah mengambil hak orang."],
+["Serahkan kepada guru",10,"Bagus! Kamu seorang yang amanah."],
+["Biarkan sahaja",3,"Kamu boleh membantu mencari pemiliknya."]
+]},
 {
- title:"🌧️ Rakan Terjatuh",
- story:"Ketika pulang dari sekolah, kamu melihat seorang rakan terjatuh di jalan yang basah. Murid lain sedang mentertawakannya. Apa yang kamu lakukan?",
- choices:[
-  ["A. Ketawa bersama mereka.",0,"Mentertawakan kesusahan orang lain boleh melukakan hati."],
-  ["B. Bantu rakan bangun dan panggil guru jika perlu.",10,"Bagus! Inilah sifat prihatin dan kasih sayang."],
-  ["C. Berjalan pergi kerana takut.",2,"Kamu boleh belajar memberanikan diri untuk membantu."]
- ]
-},
+t:"🤝 MISI 2: KERJASAMA",
+c:"Rakan kamu tidak pandai menyiapkan tugasan. Apa tindakan kamu?",
+p:[
+["Biarkan dia",0,"Kita perlu saling membantu."],
+["Bantu dan ajar dia",10,"Hebat! Itulah semangat kerjasama."],
+["Marah kepadanya",0,"Kita perlu bersabar dengan rakan."]
+]},
 {
- title:"🌳 Kebersihan Kampung",
- story:"Kamu berkelah bersama keluarga berhampiran sungai di Sarawak. Selepas makan, kamu nampak sampah plastik di kawasan itu. Apa tindakan kamu?",
- choices:[
-  ["A. Tinggalkan sahaja sampah itu.",0,"Alam sekitar ialah tanggungjawab bersama."],
-  ["B. Kutip sampah dan buang di tempat yang betul.",10,"Syabas! Kamu menyayangi alam sekitar."],
-  ["C. Suruh orang lain sahaja mengutipnya.",3,"Menjaga kebersihan bermula dengan diri sendiri."]
- ]
-},
+t:"🌳 MISI 3: CINTA ALAM",
+c:"Kamu nampak sampah di tepi sungai kampung. Apa tindakan kamu?",
+p:[
+["Buang sampah ke sungai",0,"Sungai mesti dijaga."],
+["Kutip dan buang dengan betul",10,"Syabas! Kamu menjaga alam sekitar."],
+["Tinggalkan sahaja",2,"Kebersihan tanggungjawab bersama."]
+]},
 {
- title:"🤝 Projek Berkumpulan",
- story:"Guru meminta kumpulan kamu menyiapkan satu projek. Seorang rakan tidak pandai melukis dan ahli lain tidak mahu menerimanya. Apa tindakan kamu?",
- choices:[
-  ["A. Biarkan dia bersendirian.",0,"Setiap orang mempunyai kebolehan yang berbeza."],
-  ["B. Ajak dia bersama dan berikan tugas yang sesuai.",10,"Hebat! Kamu mengamalkan kerjasama dan menghargai orang lain."],
-  ["C. Buat semua kerja seorang diri.",3,"Kerjasama bermaksud saling membantu, bukan melakukan semuanya sendiri."]
- ]
-},
+t:"❤️ MISI 4: PRIHATIN",
+c:"Seorang rakan terjatuh ketika bermain. Apa tindakan kamu?",
+p:[
+["Ketawakan dia",0,"Jangan menyakiti hati orang."],
+["Bantu dia bangun",10,"Bagus! Kamu prihatin."],
+["Berlari meninggalkannya",0,"Rakan memerlukan bantuan kita."]
+]},
 {
- title:"❤️ Kejujuran Seorang Wira",
- story:"Kamu tidak sengaja memecahkan pasu bunga di kelas. Tiada siapa melihat kejadian itu. Guru bertanya siapa yang melakukannya. Apa tindakan kamu?",
- choices:[
-  ["A. Mengaku dengan jujur dan meminta maaf.",10,"Tahniah! Kejujuran memerlukan keberanian."],
-  ["B. Menyalahkan rakan.",0,"Tidak adil menyalahkan orang lain atas kesalahan sendiri."],
-  ["C. Berdiam diri dan berharap tiada siapa tahu.",2,"Berani mengaku kesalahan ialah langkah menjadi insan lebih baik."]
- ]
-}
+t:"⭐ MISI 5: JUJUR",
+c:"Kamu terpecahkan barang sekolah. Guru bertanya siapa yang melakukannya.",
+p:[
+["Mengaku dengan jujur",10,"Tahniah! Kejujuran memerlukan keberanian."],
+["Salahkan rakan",0,"Jangan menipu atau menyalahkan orang."],
+["Diam sahaja",2,"Berani mengaku kesalahan ialah sikap mulia."]
+]}
 ];
 
-let current=0;
-let total=0;
-let answered=false;
+let nombor=0,skor=0,selesai=false;
 
-function startGame(){
- current=0;
- total=0;
- document.getElementById("home").classList.add("hidden");
- document.getElementById("ending").classList.add("hidden");
- document.getElementById("game").classList.remove("hidden");
- showMission();
+function mula(){
+ nombor=0;skor=0;
+ document.getElementById("home").style.display="none";
+ document.getElementById("finish").style.display="none";
+ document.getElementById("game").style.display="block";
+ papar();
 }
 
-function showMission(){
- answered=false;
- const m=missions[current];
- document.getElementById("mission").textContent="MISI "+(current+1)+" DARIPADA 5";
- document.getElementById("bar").style.width=(current/5*100)+"%";
- document.getElementById("title").textContent=m.title;
- document.getElementById("story").textContent=m.story;
- document.getElementById("scene").classList.remove("hidden");
- document.getElementById("result").classList.add("hidden");
-
- const area=document.getElementById("choices");
- area.innerHTML="";
-
- m.choices.forEach((c)=>{
-  const b=document.createElement("button");
+function papar(){
+ selesai=false;
+ let m=data[nombor];
+ document.getElementById("tajuk").textContent=m.t;
+ document.getElementById("cerita").textContent=m.c;
+ document.getElementById("feedback").style.display="none";
+ document.getElementById("seterusnya").style.display="none";
+ let tempat=document.getElementById("pilihan");
+ tempat.innerHTML="";
+ m.p.forEach((pilihan,i)=>{
+  let b=document.createElement("button");
   b.className="choice";
-  b.textContent=c[0];
-  b.onclick=()=>choose(c,b);
-  area.appendChild(b);
+  b.textContent=String.fromCharCode(65+i)+". "+pilihan[0];
+  b.onclick=()=>jawab(i);
+  tempat.appendChild(b);
  });
 }
 
-function choose(c,button){
- if(answered)return;
- answered=true;
- total+=c[1];
-
- document.querySelectorAll(".choice").forEach(b=>{
-  b.disabled=true;
- });
-
- document.getElementById("feedbackTitle").textContent=
- c[1]===10?"🌟 PILIHAN YANG BAIK!":"💡 FIKIR DAN BELAJAR!";
- document.getElementById("feedbackText").textContent=
- c[2]+" Kamu memperoleh "+c[1]+" daripada 10 markah.";
-
- document.getElementById("scene").classList.add("hidden");
- document.getElementById("result").classList.remove("hidden");
- document.getElementById("bar").style.width=((current+1)/5*100)+"%";
+function jawab(i){
+ if(selesai)return;
+ selesai=true;
+ let m=data[nombor],p=m.p[i];
+ skor+=p[1];
+ document.getElementById("feedback").textContent=
+ p[2]+" Markah: "+p[1]+"/10";
+ document.getElementById("feedback").style.display="block";
+ document.getElementById("seterusnya").style.display="block";
+ document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
 }
 
-function nextMission(){
- current++;
- if(current<missions.length){
-  showMission();
+function next(){
+ nombor++;
+ if(nombor<data.length){
+  papar();
  }else{
-  finishGame();
+  document.getElementById("game").style.display="none";
+  document.getElementById("finish").style.display="block";
+  document.getElementById("markah").textContent=skor+"/50";
+  document.getElementById("tahap").textContent=
+  skor>=40?"WIRA KARAKTER HEBAT! 🏆":
+  skor>=25?"WIRA SEDANG BERKEMBANG! 🌟":
+  "BAKAL WIRA! TERUS BELAJAR! 🌱";
  }
-}
-
-function finishGame(){
- document.getElementById("game").classList.add("hidden");
- document.getElementById("ending").classList.remove("hidden");
- document.getElementById("score").textContent=total+"/50";
-
- let rank,message;
-
- if(total>=45){
-  rank="🏆 WIRA KARAKTER HEBAT!";
-  message="Kamu menunjukkan pilihan yang sangat baik. Teruskan menjadi contoh kepada orang lain!";
- }else if(total>=30){
-  rank="🌟 WIRA YANG SEDANG BERKEMBANG!";
-  message="Kamu mempunyai banyak sifat yang baik. Teruskan belajar dan memperbaiki diri!";
- }else{
-  rank="🌱 BAKAL WIRA!";
-  message="Tidak mengapa jika belum berjaya. Setiap kesilapan ialah peluang untuk belajar menjadi lebih baik!";
- }
-
- document.getElementById("rank").textContent=rank;
- document.getElementById("message").textContent=message;
 }
 </script>
 </body>
