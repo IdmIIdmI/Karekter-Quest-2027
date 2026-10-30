@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KARAKTER QUEST 2027</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#e5f2eb;color:#173b3a}
+header{background:#123b42;color:white;padding:25px 18px;text-align:center}
+header h1{font-size:30px;margin:8px}
+header p{color:#d5e9df}
+main{max-width:750px;margin:20px auto;padding:12px}
+.card{background:white;border-radius:18px;padding:20px;margin-bottom:15px;box-shadow:0 4px 15px #0001}
+h2{margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:12px;padding:15px;font-size:15px;font-weight:bold;cursor:pointer}
+.world{background:#e5f2eb;color:#174d45;min-height:95px}
+.world:hover{background:#cce8da}
+.choice{display:block;width:100%;text-align:left;margin:10px 0;background:#edf3f0;color:#173b3a;line-height:1.4}
+.choice:hover{background:#d5ebdf}
+#story{line-height:1.7}
+#feedback{background:#fff4d5;padding:15px;border-radius:12px;line-height:1.6;margin-top:12px}
+.primary{background:#176b60;color:white;width:100%;margin-top:12px}
+.small{color:#718783;font-size:13px}
+.hidden{display:none}
+.stat{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:450px){header h1{font-size:25px}.grid{gap:7px}.world{font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+<div>🌿 PERJALANAN 365 HARI</div>
+<h1>KARAKTER QUEST 2027</h1>
+<p>Empat dunia. Satu perjalanan membina insan.</p>
+</header>
+<main>
+<section class="card">
+<h2>🧭 Selamat Datang, Penjelajah!</h2>
+<p>Pilih misi. Fikir sebelum bertindak. Belajar daripada setiap pengalaman.</p>
+<div class="stat">
+<b>⭐ Bintang: <span id="stars">0</span></b>
+<b>🏆 Misi: <span id="completed">0</span></b>
+</div>
+</section>
+
+<section class="card" id="home">
+<h2>🌏 Pilih dunia kamu</h2>
+<div class="grid">
+<button class="world" onclick="start(0)">🌳<br>ADVENTURE</button>
+<button class="world" onclick="start(1)">🏡<br>SIMULATION</button>
+<button class="world" onclick="start(2)">💗<br>PSYCHOLOGICAL</button>
+<button class="world" onclick="start(3)">🤝<br>CHALLENGE</button>
+</div>
+</section>
+
+<section class="card hidden" id="game">
+<div class="small" id="category"></div>
+<h2 id="title"></h2>
+<div style="font-size:48px;text-align:center" id="picture"></div>
+<p id="story"></p>
+<div id="options"></div>
+<div id="feedback" class="hidden"></div>
+<button id="next" class="primary hidden" onclick="next()">Teruskan →</button>
+<button class="primary" style="background:#718783" onclick="back()">Kembali ke dunia</button>
+</section>
+
+<section class="card">
+<h2>💚 Empat Teras Karakter</h2>
+<div class="grid">
+<div>💚 Penyayang</div>
+<div>⛰️ Berdaya Tahan</div>
+<div>🧭 Berupaya Memimpin</div>
+<div>🌏 Warganegara Aktif</div>
+</div>
+</section>
+<p class="small" style="text-align:center">KARAKTER QUEST 2027 • Prototaip Versi 0.1</p>
+</main>
+
+<script>
+const missions=[
+{
+world:"ADVENTURE",pillar:"Penyayang",
+title:"Bakul Aki",
+pic:"🌧️🧺",
+story:"Di sebuah kampung di Sarawak, kamu nampak seorang warga tua membawa bakul berat. Rakan-rakan kamu sudah berjalan dahulu. Apakah tindakan kamu?",
+choices:[
+["Terus berjalan.","Kamu sampai dahulu, tetapi Aki masih memerlukan bantuan. Cuba fikirkan perasaan orang lain.",0],
+["Tanya Aki jika dia perlukan bantuan.","Aki tersenyum. Kamu belajar bahawa kasih sayang bermula dengan mengambil berat.",2],
+["Ajak rakan membantu Aki.","Kamu bekerjasama. Beban menjadi lebih ringan apabila saling membantu.",3]
+],
+task:"Hari ini, cari seseorang yang memerlukan bantuan. Tanya dahulu sebelum membantu."
+},
+{
+world:"SIMULATION",pillar:"Berupaya Memimpin",
+title:"Ketua Yang Adil",
+pic:"👧🏽👦🏻🧩",
+story:"Kumpulan kamu perlu menyiapkan satu projek. Semua mahu menjadi ketua. Seorang rakan pula tidak diberikan tugas. Apa tindakan kamu?",
+choices:[
+["Pilih kawan baik sahaja.","Pemimpin perlu belajar berlaku adil kepada semua.",0],
+["Dengar pendapat semua dan bahagi tugas.","Kamu memberi peluang kepada semua untuk menyumbang.",3],
+["Buat semua kerja seorang diri.","Kamu mahu cepat siap, tetapi kerjasama juga penting.",0]
+],
+task:"Ajak seorang rakan yang selalu bersendirian menyertai aktiviti."
+},
+{
+world:"PSYCHOLOGICAL",pillar:"Berdaya Tahan",
+title:"Menara Yang Runtuh",
+pic:"🧱😢",
+story:"Kamu membina menara blok. Tiba-tiba ia runtuh. Seorang rakan ketawa. Kamu berasa marah dan malu. Apa yang kamu lakukan?",
+choices:[
+["Marah dan campak semua blok.","Marah ialah perasaan biasa, tetapi kita perlu belajar mengawalnya.",0],
+["Tarik nafas dan cuba semula.","Kamu tidak menyerah. Kegagalan boleh menjadi peluang untuk belajar.",3],
+["Berhenti kerana takut gagal.","Tidak mengapa berasa kecewa. Kamu boleh berehat dan mencuba lagi.",0]
+],
+task:"Jika sesuatu terasa susah, tarik nafas dan cuba sekali lagi."
+},
+{
+world:"CHALLENGE",pillar:"Warganegara Aktif",
+title:"Sungai Kita",
+pic:"🏞️🧴",
+story:"Selepas berkelah, kamu nampak sampah plastik di tepi sungai. Tong sampah ada berhampiran. Apakah tindakan kamu?",
+choices:[
+["Biarkan sahaja.","Kawasan awam ialah tanggungjawab bersama.",0],
+["Kutip jika selamat dan buang ke tong.","Bagus! Kamu menjaga alam sekitar. Sampah berbahaya perlu dilaporkan kepada orang dewasa.",3],
+["Masuk ke sungai untuk mengambilnya.","Niat kamu baik, tetapi keselamatan lebih utama. Jangan masuk ke sungai.",0]
+],
+task:"Pastikan kawasan meja atau kelas kamu bersih hari ini."
+}
+];
+
+let current=0, answered=false;
+let done=JSON.parse(localStorage.getItem("kqDone")||"[]");
+let stars=Number(localStorage.getItem("kqStars")||0);
+
+function update(){
+ document.getElementById("stars").textContent=stars;
+ document.getElementById("completed").textContent=done.length;
+}
+function start(i){
+ current=i;answered=false;
+ let m=missions[i];
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ document.getElementById("category").textContent=m.world+" • "+m.pillar;
+ document.getElementById("title").textContent=m.title;
+ document.getElementById("picture").textContent=m.pic;
+ document.getElementById("story").textContent=m.story;
+ document.getElementById("feedback").classList.add("hidden");
+ document.getElementById("next").classList.add("hidden");
+ document.getElementById("options").innerHTML="";
+ m.choices.forEach((c,n)=>{
+  let b=document.createElement("button");
+  b.className="choice";
+  b.textContent=String.fromCharCode(65+n)+". "+c[0];
+  b.onclick=()=>choose(n);
+  document.getElementById("options").appendChild(b);
+ });
+}
+function choose(n){
+ if(answered)return;
+ answered=true;
+ let m=missions[current],c=m.choices[n];
+ let f=document.getElementById("feedback");
+ f.innerHTML="<b>"+(c[2]>0?"🌟 Bagus, penjelajah!":"💡 Mari kita fikir bersama.")+"</b><br>"+c[1]+"<br><br><b>Misi kehidupan sebenar:</b><br>"+m.task+"<br><br><small>Kita tidak perlu sempurna. Kita belajar sedikit demi sedikit.</small>";
+ f.classList.remove("hidden");
+ document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+ if(!done.includes(current)){
+  done.push(current);
+  stars+=c[2];
+  localStorage.setItem("kqDone",JSON.stringify(done));
+  localStorage.setItem("kqStars",stars);
+ }
+ update();
+ document.getElementById("next").classList.remove("hidden");
+}
+function next(){
+ let i=missions.findIndex((m,n)=>!done.includes(n));
+ if(i<0){
+  alert("Tahniah! Kamu telah mencuba semua misi prototaip.");
+  back();
+ }else start(i);
+}
+function back(){
+ document.getElementById("game").classList.add("hidden");
+ document.getElementById("home").classList.remove("hidden");
+}
+update();
+</script>
+</body>
+</html>
