@@ -366,6 +366,176 @@ function updateJournal(){
 }
 
 updateJournal();draw();
+// ===================================
+// KP2027 - SISTEM NPC PENDUDUK
+// ===================================
+
+const npcs = [
+ {
+  id:0,name:"Pak Jali",icon:"🧔",
+  x:225,y:300,
+  intro:"Assalamualaikum, anak muda. Aku sudah lama tinggal di tebing sungai ini."
+ },
+ {
+  id:1,name:"Lina",icon:"👧",
+  x:455,y:145,
+  intro:"Hai! Aku Lina. Aku suka melihat orang datang ke kampung kami."
+ },
+ {
+  id:2,name:"Pak Bujang",icon:"👨",
+  x:260,y:445,
+  intro:"Selamat datang. Kampung ini memerlukan orang yang sanggup mengambil tanggungjawab."
+ }
+];
+
+let nearNPC=null;
+
+function drawNPCs(){
+ npcs.forEach(n=>{
+  ctx.beginPath();
+  ctx.arc(n.x,n.y,19,0,Math.PI*2);
+  ctx.fillStyle="#fff1c8";
+  ctx.fill();
+  ctx.strokeStyle="#244b35";
+  ctx.lineWidth=3;
+  ctx.stroke();
+
+  ctx.font="25px Arial";
+  ctx.textAlign="center";
+  ctx.fillText(n.icon,n.x,n.y+9);
+
+  ctx.font="bold 13px Arial";
+  ctx.fillStyle="#173d29";
+  ctx.fillText(n.name,n.x,n.y+35);
+ });
+}
+
+// Simpan fungsi asal
+const oldCheckNear=checkNear;
+const oldInteract=interact;
+const oldDraw=draw;
+
+// Kesan NPC berhampiran
+checkNear=function(){
+ let found=null;
+ let nearest=65;
+
+ npcs.forEach(n=>{
+  const d=Math.hypot(player.x-n.x,player.y-n.y);
+  if(d<nearest){
+   nearest=d;
+   found=n;
+  }
+ });
+
+ nearNPC=found;
+
+ if(found){
+  document.getElementById("interact").disabled=false;
+  document.getElementById("interact").textContent=
+   "Berbual dengan "+found.name;
+  document.getElementById("notice").textContent=
+   found.name+" berada berhampiran kamu.";
+ }else{
+  oldCheckNear();
+ }
+};
+
+// Tambah NPC dalam dunia
+draw=function(){
+ oldDraw();
+ drawNPCs();
+};
+
+// Reaksi NPC mengikut tindakan pemain
+function npcOpening(n){
+ if(n.id===0){
+  return effects[2]===0
+   ?"Terima kasih kerana membantu membersihkan sungai. Penduduk mula berasa lega."
+   :"Aku risau melihat keadaan sungai. Sampah semakin banyak hanyut ke sini.";
+ }
+
+ if(n.id===1){
+  return effects[1]===0
+   ?"Aku dengar kamu membantu seorang rakan. Baguslah, kita memang saling memerlukan."
+   :"Kadang-kadang orang di sini menghadapi kesusahan. Tidak semua berani meminta pertolongan.";
+ }
+
+ if(n.id===2){
+  return effects[4]===0
+   ?"Aku dengar kamu mengaku kesilapan. Kejujuran sangat penting dalam kehidupan bermasyarakat."
+   :"Dalam hidup, setiap orang pernah melakukan kesilapan. Yang penting ialah bagaimana kita menghadapinya.";
+ }
+}
+
+function npcAnswer(n,question){
+ if(question===0){
+  if(n.id===0){
+   return effects[2]===0
+    ?"Air sungai nampak semakin bersih. Aku harap penduduk terus menjaganya."
+    :"Sungai ini sumber kehidupan kami. Kalau semua orang tidak peduli, siapa lagi yang akan menjaganya?";
+  }
+
+  if(n.id===1){
+   return effects[1]===0
+    ?"Hubungan kami semakin baik apabila orang saling membantu."
+    :"Kampung ini aman, tetapi setiap orang ada masalah yang perlu diselesaikan.";
+  }
+
+  return effects[4]===0
+   ?"Penduduk semakin menghargai sikap bertanggungjawab."
+   :"Kampung yang baik bukan dibina oleh seorang sahaja. Semua orang memainkan peranan.";
+ }
+
+ if(n.id===0){
+  return "Kamu boleh membantu menjaga sungai, mengingatkan orang ramai dan tidak membuang sampah merata-rata.";
+ }
+
+ if(n.id===1){
+  return "Cuba kenali penduduk di sini. Kadang-kadang mendengar masalah seseorang pun sudah sangat bermakna.";
+ }
+
+ return "Lihat keadaan sekeliling. Jika ada masalah, jangan terus menunggu orang lain menyelesaikannya.";
+}
+
+// Interaksi NPC
+interact=function(){
+ if(!nearNPC){
+  oldInteract();
+  return;
+ }
+
+ const n=nearNPC;
+
+ document.getElementById("dialogTitle").textContent=n.name;
+ document.getElementById("dialogText").textContent=
+  n.intro+"\n\n"+npcOpening(n);
+
+ const box=document.getElementById("dialogChoices");
+ box.innerHTML="";
+
+ const questions=[
+  "Bagaimana keadaan kampung sekarang?",
+  "Apa yang boleh aku lakukan untuk membantu?"
+ ];
+
+ questions.forEach((q,i)=>{
+  const b=document.createElement("button");
+  b.className="choice";
+  b.textContent=q;
+
+  b.onclick=function(){
+   document.getElementById("dialogText").textContent=
+    npcAnswer(n,i);
+   box.innerHTML="";
+  };
+
+  box.appendChild(b);
+ });
+
+ document.getElementById("dialogue").style.display="flex";
+};
+
 </script>
 </body>
 </html>
