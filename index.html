@@ -675,6 +675,29 @@ document.body.style.margin="0";
 document.body.style.overflow="hidden";
 
 console.log("KP2027: Dunia Borneo dan lima wira telah dimuatkan.");
+ // AKTIFKAN BUTANG MENU KP2027
+
+$("playBtn").onclick = () => {
+  audioStart();
+  sfx("open");
+  panel("heroPanel");
+};
+
+$("progressBtn").onclick = () => {
+  audioStart();
+  panel("progressPanel");
+};
+
+$("heroBackBtn").onclick = () => panel("homePanel");
+$("backBtn").onclick = () => panel("homePanel");
+$("menuBtn").onclick = () => panel("homePanel");
+
+$("chooseHeroBtn").onclick = () => {
+  if (typeof window.kpChooseHero === "function") {
+    window.kpChooseHero(window.kpSelectedHero || 0);
+    panel(null);
+  }
+};
 </script>
 </body>
 </html>
