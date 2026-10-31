@@ -1,89 +1,1135 @@
+
 <!doctype html>
 <html lang="ms">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#102d25"><title>KP2027 — Pengembaraan Borneo 3D</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#102d25">
+<title>KP2027 — Pengembaraan Borneo Superhero</title>
+
 <style>
-:root{--gold:#ffd36d;--cream:#fff8e8;--green:#123b2c}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#102d25;font-family:system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}#hud{position:absolute;inset:0;pointer-events:none;color:white}.top{position:absolute;top:env(safe-area-inset-top,10px);left:12px;right:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.brand,.stats,.hint{background:#08251dcc;border:1px solid #ffffff35;backdrop-filter:blur(8px);border-radius:14px;padding:9px 12px;box-shadow:0 5px 18px #00150d55}.brand{font-weight:950;letter-spacing:.7px}.stats{display:flex;gap:12px;font-size:12px;font-weight:800}.stats b{color:var(--gold);font-size:15px}.topBtns{display:flex;gap:7px;pointer-events:auto}.iconBtn{border:1px solid #ffffff50;background:#08251ddd;color:white;border-radius:12px;padding:10px 12px;font-weight:800}.hint{position:absolute;top:68px;left:50%;transform:translateX(-50%);font-size:12px;white-space:nowrap;max-width:92vw;text-align:center}.controls{position:absolute;left:15px;right:15px;bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}.joy{width:130px;height:130px;border-radius:50%;border:2px solid #ffffff66;background:#08251d66;backdrop-filter:blur(5px);position:relative;pointer-events:auto;touch-action:none}.stick{position:absolute;width:54px;height:54px;left:36px;top:36px;border-radius:50%;background:linear-gradient(145deg,#fff3c9,#d5a84c);border:3px solid #fff9;box-shadow:0 5px 14px #001a11aa}.actions{display:grid;grid-template-columns:repeat(2,70px);gap:10px;pointer-events:auto}.act{height:64px;border-radius:22px;border:2px solid #fff9;background:linear-gradient(145deg,#fff0b9,#dca93e);color:#3b2b0b;font-weight:950;font-size:12px;box-shadow:0 5px 0 #8d6426;touch-action:manipulation}.act:active{transform:translateY(3px);box-shadow:0 2px 0 #8d6426}.act.secondary{background:linear-gradient(145deg,#d7f1e0,#5eaa7a);color:#103c27;box-shadow:0 5px 0 #286344}.centerMsg{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:#08251de8;border:1px solid #fff8;border-radius:18px;padding:14px 18px;text-align:center;max-width:85%;display:none}.centerMsg.show{display:block}.panel{position:absolute;inset:0;background:#061b14bb;display:none;align-items:center;justify-content:center;padding:16px;pointer-events:auto;overflow:auto}.panel.show{display:flex}.card{width:min(520px,100%);max-height:92%;overflow:auto;background:var(--cream);color:#18352a;border-radius:24px;padding:22px;box-shadow:0 20px 70px #0009;border:2px solid #fff}.eyebrow{font-size:11px;font-weight:950;letter-spacing:1.5px;color:#387452}.card h1,.card h2{margin:6px 0 10px;color:#123b2c}.card p{line-height:1.5}.btn{width:100%;padding:14px;border:0;border-radius:14px;background:var(--gold);color:#3c2b08;font-weight:950;font-size:15px;margin-top:10px;box-shadow:0 4px 0 #c79c3c}.btn.alt{background:#e2eee4;color:#194b32;box-shadow:0 4px 0 #b6cfba}.choice{width:100%;text-align:left;padding:14px;border:1px solid #d5e2d6;background:#fff;border-radius:13px;margin:6px 0;font-weight:800;color:#18352a}.choice:disabled{opacity:.55}.bar{height:9px;border-radius:99px;background:#dce7da;overflow:hidden;margin:5px 0 12px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#4a9a69,#d4ad4b)}.traits{display:grid;gap:7px}.trait{background:#edf3e9;border-radius:12px;padding:9px;font-size:13px;font-weight:800}.reward{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,#ffe9a6aa,#071c16eF 65%);z-index:5;color:white;text-align:center;pointer-events:auto}.reward.show{display:flex}.rewardBox{padding:28px;animation:pop .7s cubic-bezier(.2,1.6,.3,1)}.chest{font-size:100px;filter:drop-shadow(0 0 24px #ffdb65);animation:float 1.3s infinite alternate}.reward h1{font-size:clamp(28px,8vw,48px);text-shadow:0 3px 18px #e9a72a}.reward p{font-size:19px;font-weight:900}.reward button{border:0;border-radius:14px;padding:14px 28px;font-weight:950;background:var(--gold);color:#392707}@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}@keyframes float{to{transform:translateY(-12px) rotate(3deg)}}.small{font-size:12px;color:#60756b}.meter{font-size:13px;font-weight:900;color:#245a3d}
-@media(max-width:390px){.joy{width:116px;height:116px}.stick{left:31px;top:31px}.actions{grid-template-columns:repeat(2,62px)}.act{height:58px}.stats{gap:7px;padding:8px}.hint{top:62px;font-size:11px}}
+:root{--gold:#ffd36d;--cream:#fff8e8;--green:#123b2c}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#102d25;font-family:system-ui,sans-serif;touch-action:none}
+#game{position:fixed;inset:0}
+canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;inset:0;pointer-events:none;color:white}
+.top{position:absolute;top:env(safe-area-inset-top,10px);left:10px;right:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.brand,.stats,.hint{background:#08251ddd;border:1px solid #ffffff40;backdrop-filter:blur(8px);border-radius:13px;padding:9px 10px}
+.brand{font-weight:950;letter-spacing:.5px}
+.stats{display:flex;gap:9px;font-size:11px;font-weight:800}
+.stats b{color:var(--gold);font-size:15px}
+.topBtns{display:flex;gap:5px;pointer-events:auto}
+.iconBtn{border:1px solid #ffffff50;background:#08251ddd;color:white;border-radius:10px;padding:9px;font-weight:800;font-size:11px}
+.hint{position:absolute;top:65px;left:50%;transform:translateX(-50%);font-size:11px;white-space:nowrap;max-width:94vw;text-align:center}
+.controls{position:absolute;left:13px;right:13px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+.joy{width:125px;height:125px;border-radius:50%;border:2px solid #ffffff66;background:#08251d77;position:relative;pointer-events:auto;touch-action:none}
+.stick{position:absolute;width:52px;height:52px;left:34px;top:34px;border-radius:50%;background:linear-gradient(145deg,#fff3c9,#d5a84c);border:3px solid #fff9;box-shadow:0 5px 14px #001a11aa}
+.actions{display:grid;grid-template-columns:repeat(2,66px);gap:9px;pointer-events:auto}
+.act{height:59px;border-radius:19px;border:2px solid #fff9;background:linear-gradient(145deg,#fff0b9,#dca93e);color:#3b2b0b;font-weight:950;font-size:11px;box-shadow:0 5px 0 #8d6426;touch-action:manipulation}
+.act:active{transform:translateY(3px)}
+.act.secondary{background:linear-gradient(145deg,#d7f1e0,#5eaa7a);color:#103c27}
+#actionBtn{grid-column:1/3}
+.centerMsg{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:#08251de8;border:1px solid #fff8;border-radius:18px;padding:14px;text-align:center;max-width:85%;display:none}
+.centerMsg.show{display:block}
+.panel{position:absolute;inset:0;background:#061b14cc;display:none;align-items:center;justify-content:center;padding:14px;pointer-events:auto;overflow:auto}
+.panel.show{display:flex}
+.card{width:min(520px,100%);max-height:92%;overflow:auto;background:var(--cream);color:#18352a;border-radius:24px;padding:20px;box-shadow:0 20px 70px #0009;border:2px solid white}
+.eyebrow{font-size:11px;font-weight:950;letter-spacing:1.5px;color:#387452}
+.card h1,.card h2{margin:6px 0 10px;color:#123b2c}
+.card p{line-height:1.5}
+.btn{width:100%;padding:13px;border:0;border-radius:14px;background:var(--gold);color:#3c2b08;font-weight:950;font-size:14px;margin-top:9px;box-shadow:0 4px 0 #c79c3c}
+.btn.alt{background:#e2eee4;color:#194b32;box-shadow:0 4px 0 #b6cfba}
+.btn.read{background:#d9eaff;color:#17466b;box-shadow:0 4px 0 #9bbbd7}
+.choice{width:100%;text-align:left;padding:13px;border:1px solid #d5e2d6;background:white;border-radius:13px;margin:5px 0;font-weight:800;color:#18352a}
+.choice:disabled{opacity:.55}
+.choice.correct{background:#c9efd1;border:2px solid #39965a}
+.choice.wrong{background:#ffe0d9}
+.bar{height:8px;border-radius:99px;background:#dce7da;overflow:hidden;margin:5px 0 12px}
+.bar span{display:block;height:100%;background:linear-gradient(90deg,#4a9a69,#d4ad4b)}
+.traits{display:grid;gap:7px}
+.trait{background:#edf3e9;border-radius:12px;padding:9px;font-size:13px;font-weight:800}
+.reward{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,#ffe9a6aa,#071c16ef 65%);z-index:20;color:white;text-align:center}
+.reward.show{display:flex}
+.rewardBox{padding:25px;animation:pop .7s}
+.chest{font-size:95px;filter:drop-shadow(0 0 24px #ffdb65);animation:float 1.3s infinite alternate}
+.reward h1{font-size:clamp(28px,8vw,44px);text-shadow:0 3px 18px #e9a72a}
+.reward p{font-size:18px;font-weight:900}
+.reward button{border:0;border-radius:14px;padding:14px 28px;font-weight:950;background:var(--gold);color:#392707}
+.small{font-size:12px;color:#60756b}
+.meter{font-size:13px;font-weight:900;color:#245a3d}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes float{to{transform:translateY(-12px) rotate(3deg)}}
+@media(max-width:390px){
+ .joy{width:112px;height:112px}
+ .stick{left:29px;top:29px}
+ .actions{grid-template-columns:repeat(2,59px)}
+ .act{height:54px}
+ .stats{gap:6px;padding:7px}
+ .hint{top:61px;font-size:10px}
+ .iconBtn{padding:8px 6px}
+}
 </style>
 </head>
+
 <body>
 <div id="game"></div>
+
 <div id="hud">
- <div class="top"><div class="brand">🌿 KP2027</div><div class="stats"><span>TAHAP<br><b id="level">1</b></span><span>XP<br><b id="xp">0</b></span><span>MISI<br><b id="done">0/5</b></span></div><div class="topBtns"><button class="iconBtn" id="soundBtn">♫ ON</button><button class="iconBtn" id="menuBtn">☰</button></div></div>
- <div class="hint" id="hint">Gerakkan joystick • Seret kanan untuk pusing kamera</div>
- <div class="centerMsg" id="nearMsg">Dekati tanda misi dan tekan AKSI</div>
- <div class="controls"><div class="joy" id="joy"><div class="stick" id="stick"></div></div><div class="actions"><button class="act" id="jumpBtn">LOMPAT</button><button class="act secondary" id="runBtn">LARI</button><button class="act secondary" id="actionBtn" style="grid-column:1/3">AKSI</button></div></div>
+ <div class="top">
+  <div class="brand">🌿 KP2027</div>
+  <div class="stats">
+   <span>TAHAP<br><b id="level">1</b></span>
+   <span>XP<br><b id="xp">0</b></span>
+   <span>MISI<br><b id="done">0/5</b></span>
+  </div>
+  <div class="topBtns">
+   <button class="iconBtn" id="voiceBtn">🔊 BACA</button>
+   <button class="iconBtn" id="soundBtn">♫ ON</button>
+   <button class="iconBtn" id="menuBtn">☰</button>
+  </div>
+ </div>
+
+ <div class="hint" id="hint">Gerakkan joystick • Seret skrin untuk pusing kamera</div>
+ <div class="centerMsg" id="nearMsg">✨ Dekati tanda misi dan tekan AKSI</div>
+
+ <div class="controls">
+  <div class="joy" id="joy"><div class="stick" id="stick"></div></div>
+  <div class="actions">
+   <button class="act" id="jumpBtn">🦸 LOMPAT</button>
+   <button class="act secondary" id="runBtn">⚡ LARI</button>
+   <button class="act secondary" id="actionBtn">AKSI ✨</button>
+  </div>
+ </div>
 </div>
-<div class="panel show" id="homePanel"><div class="card" style="text-align:center"><div style="font-size:56px">🌴</div><div class="eyebrow">KARAKTER QUEST 2027</div><h1>Pengembaraan Borneo</h1><p>Terokai dunia 3D, temui lima misi dan bina karakter melalui pilihan kamu.</p><p class="small">Prototaip 3D untuk telefon • Kawalan skrin sentuh</p><button class="btn" id="playBtn">MULA PENGEMBARAAN</button><button class="btn alt" id="progressBtn">LIHAT KEMAJUAN</button></div></div>
-<div class="panel" id="missionPanel"><div class="card"><div class="eyebrow" id="missionNo">MISI 1/5</div><h2 id="missionTitle">AMANAH</h2><p id="missionStory"></p><b>Apakah tindakan kamu?</b><div id="choices"></div><div id="feedback" class="small"></div><button class="btn" id="continueBtn" style="display:none">KEMBALI KE PENGEMBARAAN</button></div></div>
-<div class="panel" id="progressPanel"><div class="card"><div class="eyebrow">JEJAK WIRA BORNEO</div><h2>Perkembangan Karakter</h2><p class="meter" id="progressSummary">0 Mata • 0 XP • Tahap 1</p><div id="traitList" class="traits"></div><button class="btn" id="backBtn">KEMBALI</button><button class="btn alt" id="resetBtn">MULA SEMULA</button></div></div>
-<div class="panel" id="finishPanel"><div class="card" style="text-align:center"><div style="font-size:58px">🏆</div><div class="eyebrow">PENGEMBARAAN SELESAI</div><h1>Wira Karakter Hebat!</h1><p id="finishSummary"></p><button class="btn" id="finishBack">TEROKAI DUNIA</button></div></div>
-<div class="reward" id="reward"><div class="rewardBox"><div class="chest">🎁</div><div class="eyebrow" style="color:#ffe7a1">PENCAPAIAN MISI</div><h1 id="rewardTitle">HEBAT!</h1><p id="rewardText">+10 MATA • +10 XP</p><button id="rewardClose">TERUSKAN</button></div></div>
+
+<div class="panel show" id="homePanel">
+ <div class="card" style="text-align:center">
+  <div style="font-size:60px">🦸🌴🦜</div>
+  <div class="eyebrow">KARAKTER QUEST 2027</div>
+  <h1>PENGEMBARAAN BORNEO</h1>
+  <p>Selamat datang, wira muda!</p>
+  <p>Terokai hutan Borneo, temui haiwan, selesaikan lima misi dan bina karakter seorang superhero.</p>
+  <p class="small">🎵 Muzik latar • 🔊 Suara • 🐒 Bunyi haiwan • Dunia 3D</p>
+  <button class="btn" id="playBtn">🦸 MULAKAN PENGEMBARAAN</button>
+  <button class="btn alt" id="progressBtn">LIHAT KEMAJUAN</button>
+ </div>
+</div>
+
+<div class="panel" id="missionPanel">
+ <div class="card">
+  <div class="eyebrow" id="missionNo">MISI 1/5</div>
+  <h2 id="missionTitle">AMANAH</h2>
+  <p id="missionStory"></p>
+  <button class="btn read" id="readQuestion">🔊 BACA CERITA</button>
+  <b>Apakah tindakan kamu?</b>
+  <div id="choices"></div>
+  <button class="btn read" id="readChoices">🔊 BACA PILIHAN A, B, C</button>
+  <div id="feedback" class="small"></div>
+  <button class="btn" id="continueBtn" style="display:none">KEMBALI KE PENGEMBARAAN ▶</button>
+ </div>
+</div>
+
+<div class="panel" id="progressPanel">
+ <div class="card">
+  <div class="eyebrow">JEJAK WIRA BORNEO</div>
+  <h2>Perkembangan Karakter</h2>
+  <p class="meter" id="progressSummary"></p>
+  <div id="traitList" class="traits"></div>
+  <button class="btn" id="backBtn">KEMBALI</button>
+  <button class="btn alt" id="resetBtn">MULA SEMULA</button>
+ </div>
+</div>
+
+<div class="panel" id="finishPanel">
+ <div class="card" style="text-align:center">
+  <div style="font-size:65px">🏆🦸</div>
+  <div class="eyebrow">PENGEMBARAAN SELESAI</div>
+  <h1>WIRA KARAKTER HEBAT!</h1>
+  <p id="finishSummary"></p>
+  <p>Teruskan menjadi insan yang penyayang, tabah, berupaya memimpin dan aktif dalam masyarakat.</p>
+  <button class="btn" id="finishBack">LIHAT DUNIA BORNEO</button>
+ </div>
+</div>
+
+<div class="reward" id="reward">
+ <div class="rewardBox">
+  <div class="chest">🎁</div>
+  <div class="eyebrow" style="color:#ffe7a1">PENCAPAIAN MISI</div>
+  <h1 id="rewardTitle">HEBAT!</h1>
+  <p id="rewardText">+10 MATA • +10 XP</p>
+  <button id="rewardClose">TERUSKAN</button>
+ </div>
+</div>
+
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
 const $=id=>document.getElementById(id);
+
 const missions=[
- {title:'AMANAH',story:'Kamu menemui sebuah dompet di kantin sekolah. Tiada sesiapa berada berdekatan. Apakah tindakan kamu?',choices:[['Simpan duit itu',0],['Serahkan kepada guru',10],['Biarkan sahaja',3]]},
- {title:'KERJASAMA',story:'Seorang rakan kelihatan sukar menyiapkan tugasan. Dia meminta bantuan kamu. Apakah tindakan kamu?',choices:[['Biarkan dia',0],['Bantu dan ajar dia',10],['Marah kepadanya',0]]},
- {title:'CINTA ALAM',story:'Kamu melihat sampah dibuang berhampiran sungai kampung. Apakah tindakan kamu?',choices:[['Buang sampah ke sungai',0],['Kutip dan buang dengan betul',10],['Tinggalkan sahaja',2]]},
- {title:'PRIHATIN',story:'Seorang rakan terjatuh ketika bermain. Dia kelihatan sakit dan memerlukan bantuan. Apakah tindakan kamu?',choices:[['Ketawakan dia',0],['Bantu dia bangun',10],['Berlari meninggalkannya',0]]},
- {title:'JUJUR',story:'Kamu tidak sengaja merosakkan barang sekolah. Tiada orang melihat kejadian itu. Apakah tindakan kamu?',choices:[['Mengaku dengan jujur',10],['Salahkan rakan',0],['Diam sahaja',2]]}
+ {title:'AMANAH',trait:'WARGANEGARA AKTIF',story:'Kamu menemui sebuah dompet di kantin sekolah. Tiada sesiapa berada berdekatan. Apakah tindakan kamu?',choices:[['Simpan duit itu',0],['Serahkan kepada guru',10],['Biarkan sahaja',3]],good:1},
+ {title:'KERJASAMA',trait:'PENYAYANG',story:'Seorang rakan kelihatan sukar menyiapkan tugasan. Dia meminta bantuan kamu. Apakah tindakan kamu?',choices:[['Biarkan dia',0],['Bantu dan ajar dia',10],['Marah kepadanya',0]],good:1},
+ {title:'CINTA ALAM',trait:'WARGANEGARA AKTIF',story:'Kamu melihat sampah dibuang berhampiran sungai kampung. Apakah tindakan kamu?',choices:[['Buang sampah ke sungai',0],['Kutip dan buang dengan betul',10],['Tinggalkan sahaja',2]],good:1},
+ {title:'PRIHATIN',trait:'PENYAYANG',story:'Seorang rakan terjatuh ketika bermain. Dia kelihatan sakit dan memerlukan bantuan. Apakah tindakan kamu?',choices:[['Ketawakan dia',0],['Bantu dia dan panggil guru',10],['Berlari meninggalkannya',0]],good:1},
+ {title:'JUJUR',trait:'BERDAYA TAHAN',story:'Kamu tidak sengaja merosakkan barang sekolah. Tiada orang melihat kejadian itu. Apakah tindakan kamu?',choices:[['Mengaku dengan jujur',10],['Salahkan rakan',0],['Diam sahaja',2]],good:0}
 ];
-const traitNames={penyayang:'Penyayang',tahan:'Berdaya Tahan',pimpin:'Berupaya Memimpin',aktif:'Warganegara Aktif'};
-const fresh=()=>({index:0,score:0,xp:0,done:[],traits:{penyayang:0,tahan:0,pimpin:0,aktif:0},finished:false});
-let state=fresh();try{const old=JSON.parse(localStorage.getItem('kp2027_rpg_v1')||'null');if(old&&Array.isArray(old.done)&&old.traits)state={...fresh(),...old,traits:{...fresh().traits,...old.traits}}}catch{}
-const save=()=>{try{localStorage.setItem('kp2027_rpg_v1',JSON.stringify(state))}catch{}};const level=()=>Math.floor(state.xp/20)+1;
-function updateHud(){$('level').textContent=level();$('xp').textContent=state.xp;$('done').textContent=state.done.length+'/5'}updateHud();
-function panel(id){['homePanel','missionPanel','progressPanel','finishPanel'].forEach(x=>$(x).classList.toggle('show',x===id))}
-// Audio: generated locally in browser; starts only after a tap, per mobile browser rules.
-let audioCtx=null,musicOn=true,musicTimer=null,master=null;
-function audioStart(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();master=audioCtx.createGain();master.gain.value=.12;master.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume();if(musicOn&&!musicTimer)startMusic()}
-function tone(freq,dur=.18,type='sine',vol=.12,delay=0){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime+delay);g.gain.exponentialRampToValueAtTime(vol,audioCtx.currentTime+delay+.025);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+dur);o.connect(g);g.connect(master);o.start(audioCtx.currentTime+delay);o.stop(audioCtx.currentTime+delay+dur+.04)}
-function sfx(kind){audioStart();if(kind==='tap'){tone(520,.08,'triangle',.08)}else if(kind==='good'){[523,659,784].forEach((f,i)=>tone(f,.22,'sine',.11,i*.11))}else if(kind==='bad'){tone(220,.22,'triangle',.08);tone(165,.25,'sine',.06,.12)}else if(kind==='jump'){tone(360,.12,'sine',.07);tone(540,.13,'sine',.05,.08)}else if(kind==='level'){[392,494,587,784].forEach((f,i)=>tone(f,.35,'triangle',.1,i*.12))}else if(kind==='open'){[330,440,554,740].forEach((f,i)=>tone(f,.42,'sine',.09,i*.09))}}
-function startMusic(){if(!audioCtx||musicTimer||!musicOn)return;let step=0;const notes=[196,247,294,247,220,262,330,262];musicTimer=setInterval(()=>{if(!audioCtx||!musicOn)return;const f=notes[step++%notes.length];tone(f,.48,'sine',.022);tone(f*2,.32,'triangle',.009,.08)},620)}
-function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}}
-$('soundBtn').onclick=()=>{musicOn=!musicOn;$('soundBtn').textContent=musicOn?'♫ ON':'♫ OFF';if(musicOn){audioStart();startMusic()}else stopMusic();sfx('tap')};
-// Three.js scene
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x9ed6d2);scene.fog=new THREE.Fog(0x9ed6d2,28,105);
-const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,250);const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.65));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;$('game').appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xdffaff,0x385b36,2.0));const sun=new THREE.DirectionalLight(0xffe5b3,2.2);sun.position.set(-25,40,20);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
-const mat=(c,r=.9)=>new THREE.MeshStandardMaterial({color:c,roughness:r});const green=mat(0x276b42),leaf2=mat(0x39864c),trunk=mat(0x765035),groundMat=mat(0x4c8b52),sand=mat(0xc8b17a),wood=mat(0x79563a),roof=mat(0x934b36),water= new THREE.MeshStandardMaterial({color:0x38aeb4,roughness:.22,metalness:.1,transparent:true,opacity:.9});
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),groundMat);ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
-// Rolling hills and distant mountains
-for(let i=0;i<10;i++){const h=8+Math.random()*13,m=new THREE.Mesh(new THREE.ConeGeometry(13+Math.random()*8,h,6),mat(i%2?0x668f69:0x779e78));m.position.set((i-5)*24,h/2-1,-65-Math.random()*22);m.scale.z=1.4;scene.add(m)}
-// River ribbon
-const river=new THREE.Mesh(new THREE.PlaneGeometry(17,150),water);river.rotation.x=-Math.PI/2;river.position.set(13,.08,-34);river.rotation.z=-.18;scene.add(river);
-// Paths
-const path=new THREE.Mesh(new THREE.PlaneGeometry(8,100),sand);path.rotation.x=-Math.PI/2;path.position.set(-1,.025,-28);scene.add(path);
-// Tree clusters, stylized tropical foliage
-function tree(x,z,s=1){const g=new THREE.Group();const t=new THREE.Mesh(new THREE.CylinderGeometry(.28*s,.42*s,3.2*s,7),trunk);t.position.y=1.6*s;t.castShadow=true;g.add(t);for(let j=0;j<5;j++){const crown=new THREE.Mesh(new THREE.IcosahedronGeometry((1.15+Math.random()*.35)*s,1),j%2?green:leaf2);crown.position.set((Math.random()-.5)*1.3*s,3.1*s+j*.18*s,(Math.random()-.5)*1.3*s);crown.castShadow=true;g.add(crown)}g.position.set(x,0,z);scene.add(g)}
-for(let i=0;i<90;i++){let x=(Math.random()-.5)*130,z=-95+Math.random()*145;if(Math.abs(x-13)<11&&z<15&&z>-90)continue;if(Math.abs(x+1)<5&&z<15&&z>-90)continue;tree(x,z,.65+Math.random()*.8)}
-// Village houses
-function house(x,z){const g=new THREE.Group();const base=new THREE.Mesh(new THREE.BoxGeometry(5,2.8,4),wood);base.position.y=2;g.add(base);const r=new THREE.Mesh(new THREE.ConeGeometry(3.7,2.1,4),roof);r.rotation.y=Math.PI/4;r.position.y=4.3;g.add(r);const deck=new THREE.Mesh(new THREE.BoxGeometry(6,.25,5),sand);deck.position.set(0,.65,0);g.add(deck);g.position.set(x,0,z);g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});scene.add(g)}house(-14,-22);house(-23,-31);house(-10,-38);
-// Bridge across stream
-const bridge=new THREE.Mesh(new THREE.BoxGeometry(5,.35,18),wood);bridge.position.set(10,.55,-30);bridge.rotation.y=-.18;bridge.castShadow=true;scene.add(bridge);
-// Player placeholder: neutral low-poly explorer proxy; character art can be replaced by the established KP2027 model.
-const player=new THREE.Group();const body=new THREE.Mesh(new THREE.CapsuleGeometry(.48,.85,4,8),mat(0x246c83));body.position.y=1.05;body.castShadow=true;player.add(body);const head=new THREE.Mesh(new THREE.SphereGeometry(.42,12,10),mat(0xd69a68));head.position.y=1.95;head.castShadow=true;player.add(head);const cap=new THREE.Mesh(new THREE.SphereGeometry(.45,12,6,0,Math.PI*2,0,Math.PI/2),mat(0xe8b84d));cap.position.y=2.18;player.add(cap);const pack=new THREE.Mesh(new THREE.BoxGeometry(.55,.7,.28),mat(0x8b5936));pack.position.set(0,1.05,.48);player.add(pack);player.position.set(0,0,5);scene.add(player);
-// Mission sign markers; interact at close range
-const markers=[];const markerPositions=[[-5,-8],[ -18,-25],[18,-47],[1,-62],[26,-77]];
-function makeMarker(i,pos){const grp=new THREE.Group();const pole=new THREE.Mesh(new THREE.CylinderGeometry(.09,.12,2,8),wood);pole.position.y=1;grp.add(pole);const plate=new THREE.Mesh(new THREE.BoxGeometry(1.35,.85,.16),mat(0xffd36d));plate.position.y=2;grp.add(plate);const num=new THREE.Mesh(new THREE.BoxGeometry(.55,.55,.18),mat([0x3b8760,0x4777a4,0x4b9a85,0x9b6a9a,0xb17a37][i]));num.position.set(0,2,.12);grp.add(num);const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.08,8,24),new THREE.MeshBasicMaterial({color:0xffe18a}));ring.rotation.x=Math.PI/2;ring.position.y=.12;grp.add(ring);grp.position.set(pos[0],0,pos[1]);grp.userData.mission=i;scene.add(grp);markers.push(grp)}markerPositions.forEach((p,i)=>makeMarker(i,p));
-// Camera follow and touch controls
-let yaw=0,pitch=.27,joyX=0,joyY=0,running=false,vertical=0,velocityY=0,onGround=true,near=-1,missionAnswered=false;const camOffset=new THREE.Vector3();
-function updateCamera(){const dist=8.2;const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);const horiz=Math.cos(pitch)*dist;camera.position.set(target.x+Math.sin(yaw)*horiz,target.y+Math.sin(pitch)*dist+1.4,target.z+Math.cos(yaw)*horiz);camera.lookAt(target)}
-let dragging=false,lastX=0,lastY=0;renderer.domElement.addEventListener('pointerdown',e=>{if(e.clientX>innerWidth*.38){dragging=true;lastX=e.clientX;lastY=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)}});renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;yaw-=dx*.006;pitch=Math.max(-.05,Math.min(.65,pitch+dy*.003))});renderer.domElement.addEventListener('pointerup',()=>dragging=false);renderer.domElement.addEventListener('pointercancel',()=>dragging=false);
-const joy=$('joy'),stick=$('stick');let joyPointer=null;function setJoy(e){const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy;const max=43,len=Math.hypot(dx,dy);if(len>max){dx=dx/len*max;dy=dy/len*max}joyX=dx/max;joyY=dy/max;stick.style.transform=`translate(${dx}px,${dy}px)`}joy.addEventListener('pointerdown',e=>{joyPointer=e.pointerId;joy.setPointerCapture(e.pointerId);setJoy(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer)setJoy(e)});function joyEnd(){joyPointer=null;joyX=joyY=0;stick.style.transform='translate(0,0)'}joy.addEventListener('pointerup',joyEnd);joy.addEventListener('pointercancel',joyEnd);
-$('runBtn').onpointerdown=()=>running=true;$('runBtn').onpointerup=()=>running=false;$('runBtn').onpointerleave=()=>running=false;$('jumpBtn').onclick=()=>{if(onGround){velocityY=7.2;onGround=false;sfx('jump')}};
-function nearestMarker(){let best=-1,d=999;const nextIndex=missions.findIndex((_,i)=>!state.done.includes(i));markers.forEach((m,i)=>{if(i!==nextIndex||state.done.includes(i))return;const dx=player.position.x-m.position.x,dz=player.position.z-m.position.z,dd=Math.hypot(dx,dz);if(dd<d){d=dd;best=i}});return d<4.5?best:-1}
-function openMission(i){if(i<0)return;near=i;missionAnswered=false;const m=missions[i];$('missionNo').textContent=`MISI ${i+1}/5`;$('missionTitle').textContent=m.title;$('missionStory').textContent=m.story;$('feedback').textContent='';$('continueBtn').style.display='none';$('choices').innerHTML=m.choices.map((c,j)=>`<button class="choice" data-choice="${j}">${String.fromCharCode(65+j)}. ${c[0]}</button>`).join('');document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>choose(i,Number(b.dataset.choice)));panel('missionPanel');sfx('tap')}
-function choose(i,j){if(missionAnswered)return;missionAnswered=true;const pts=missions[i].choices[j][1],oldLevel=level();state.score+=pts;state.xp+=pts;state.done.push(i);if(pts>0){if(i===0){state.traits.aktif+=2;state.traits.pimpin+=1}else if(i===1){state.traits.penyayang+=2;state.traits.pimpin+=1}else if(i===2){state.traits.aktif+=2;state.traits.tahan+=1}else if(i===3){state.traits.penyayang+=2;state.traits.tahan+=1}else if(i===4){state.traits.tahan+=2;state.traits.pimpin+=1}}state.index=Math.min(i+1,4);save();updateHud();document.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);$('feedback').textContent=pts===10?'Pilihan cemerlang! Kamu memperoleh 10 Mata dan 10 XP.':pts>0?`Kamu memperoleh ${pts} Mata dan ${pts} XP. Terus belajar daripada setiap pengalaman.`:'Pilihan direkodkan. Setiap pengalaman memberi peluang untuk belajar.';$('continueBtn').style.display='block';sfx(pts>=10?'good':'bad');if(level()>oldLevel){setTimeout(()=>sfx('level'),350)}$('rewardTitle').textContent=pts>=10?'PILIHAN CEMERLANG!':'MISI DIREKODKAN';$('rewardText').textContent=`+${pts} MATA  •  +${pts} XP`;$('reward').classList.add('show');sfx('open')}
-$('rewardClose').onclick=()=>{$('reward').classList.remove('show')};$('continueBtn').onclick=()=>{panel('');if(state.done.length===5){state.finished=true;save();$('finishSummary').textContent=`${state.score} Mata • ${state.xp} XP • Tahap ${level()}. Semua lima misi telah diselesaikan.`;panel('finishPanel')}else{$('hint').textContent='Teruskan meneroka dan cari tanda misi yang seterusnya.'}};
-$('actionBtn').onclick=()=>{audioStart();if(near>=0)openMission(near);else sfx('tap')};
-function renderProgress(){ $('progressSummary').textContent=`${state.score} Mata • ${state.xp} XP • Tahap ${level()}`;$('traitList').innerHTML=Object.keys(traitNames).map(k=>`<div class="trait">${traitNames[k]} <span style="float:right">${state.traits[k]} XP karakter</span><div class="bar"><span style="width:${Math.min(100,state.traits[k]*10)}%"></span></div></div>`).join('')}
-$('menuBtn').onclick=()=>{audioStart();renderProgress();panel('progressPanel')};$('backBtn').onclick=()=>panel('');$('progressBtn').onclick=()=>{renderProgress();panel('progressPanel')};$('resetBtn').onclick=()=>{if(confirm('Mula semula? Kemajuan KP2027 akan dipadam.')){state=fresh();save();updateHud();markers.forEach(m=>m.visible=true);renderProgress()}};$('finishBack').onclick=()=>panel('');
-$('playBtn').onclick=()=>{audioStart();panel('');if(state.done.length===5){$('finishSummary').textContent=`${state.score} Mata • ${state.xp} XP • Tahap ${level()}`;panel('finishPanel')}};
-// Frame loop
-const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));const move=new THREE.Vector3();move.addScaledVector(forward,-joyY);move.addScaledVector(right,joyX);if(move.lengthSq()>1)move.normalize();const speed=running?9:5.2;if(move.lengthSq()>.001){player.position.addScaledVector(move,speed*dt);player.rotation.y=Math.atan2(move.x,move.z);body.rotation.z=Math.sin(clock.elapsedTime*12)*.07}else{body.rotation.z=0}velocityY-=18*dt;player.position.y+=velocityY*dt;if(player.position.y<0){player.position.y=0;velocityY=0;onGround=true}player.position.x=THREE.MathUtils.clamp(player.position.x,-48,48);player.position.z=THREE.MathUtils.clamp(player.position.z,-96,18);markers.forEach((m,i)=>{m.visible=!state.done.includes(i);m.children[3].rotation.z=clock.elapsedTime*.8;m.children[3].position.y=.12+Math.sin(clock.elapsedTime*2+i)*.08});near=nearestMarker();$('nearMsg').classList.toggle('show',near>=0&&!$('missionPanel').classList.contains('show'));updateCamera();renderer.render(scene,camera)}animate();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.65))});
+
+const traitNames={
+ penyayang:'Penyayang',
+ tahan:'Berdaya Tahan',
+ pimpin:'Berupaya Memimpin',
+ aktif:'Warganegara Aktif'
+};
+
+const fresh=()=>({
+ index:0,score:0,xp:0,done:[],
+ traits:{penyayang:0,tahan:0,pimpin:0,aktif:0},
+ finished:false
+});
+
+let state=fresh();
+try{
+ const old=JSON.parse(localStorage.getItem('kp2027_rpg_v1')||'null');
+ if(old&&Array.isArray(old.done)&&old.traits){
+  state={...fresh(),...old,traits:{...fresh().traits,...old.traits}};
+ }
+}catch{}
+
+const save=()=>{
+ try{localStorage.setItem('kp2027_rpg_v1',JSON.stringify(state))}catch{}
+};
+const level=()=>Math.floor(state.xp/20)+1;
+
+function updateHud(){
+ $('level').textContent=level();
+ $('xp').textContent=state.xp;
+ $('done').textContent=state.done.length+'/5';
+}
+updateHud();
+
+function panel(id){
+ ['homePanel','missionPanel','progressPanel','finishPanel']
+ .forEach(x=>$(x).classList.toggle('show',x===id));
+}
+
+// ==================================
+// SUARA DAN MUZIK
+// ==================================
+
+let audioCtx=null,master=null;
+let musicOn=true,voiceOn=true;
+let musicTimer=null,animalTimer=null;
+let musicStep=0;
+
+function audioStart(){
+ if(!audioCtx){
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  master=audioCtx.createGain();
+  master.gain.value=.65;
+  master.connect(audioCtx.destination);
+ }
+ if(audioCtx.state==='suspended')audioCtx.resume();
+ if(musicOn)startMusic();
+ if(!animalTimer)startAnimals();
+}
+
+function tone(freq,dur=.18,type='sine',vol=.1,delay=0){
+ if(!audioCtx||!master)return;
+ const o=audioCtx.createOscillator();
+ const g=audioCtx.createGain();
+ const t=audioCtx.currentTime+delay;
+ o.type=type;
+ o.frequency.setValueAtTime(freq,t);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(Math.max(.0002,vol),t+.025);
+ g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ o.connect(g);
+ g.connect(master);
+ o.start(t);
+ o.stop(t+dur+.05);
+}
+
+// Muzik latar melodi hutan
+function startMusic(){
+ if(!audioCtx||musicTimer||!musicOn||state.finished)return;
+ const melody=[196,247,294,330,294,247,220,262,330,392,330,294];
+ const bass=[98,123,147,110];
+ musicTimer=setInterval(()=>{
+  if(!musicOn||state.finished)return;
+  tone(melody[musicStep%melody.length],.48,'sine',.027);
+  tone(melody[musicStep%melody.length]*2,.3,'triangle',.009,.1);
+  if(musicStep%2===0)tone(bass[(musicStep/2)%4],.55,'sine',.045);
+  musicStep++;
+ },560);
+}
+
+function stopMusic(){
+ if(musicTimer){
+  clearInterval(musicTimer);
+  musicTimer=null;
+ }
+}
+
+// Bunyi burung
+function birdSound(){
+ if(!audioCtx)return;
+ const f=1050+Math.random()*950;
+ tone(f,.09,'sine',.035);
+ tone(f*1.25,.12,'sine',.03,.13);
+ tone(f*.95,.09,'sine',.025,.28);
+}
+
+// Bunyi monyet
+function monkeySound(){
+ if(!audioCtx)return;
+ tone(420,.18,'sawtooth',.025);
+ tone(330,.2,'sawtooth',.035,.2);
+ tone(510,.12,'triangle',.025,.43);
+}
+
+// Bunyi katak
+function frogSound(){
+ if(!audioCtx)return;
+ tone(150,.22,'triangle',.045);
+ tone(135,.25,'triangle',.035,.25);
+ tone(155,.2,'triangle',.035,.53);
+}
+
+// Bunyi unggas hutan
+function jungleBird(){
+ if(!audioCtx)return;
+ [720,880,660,990].forEach((f,i)=>tone(f,.12,'sine',.035,i*.17));
+}
+
+function animalSound(){
+ if(!audioCtx||state.finished)return;
+ const sounds=[birdSound,monkeySound,frogSound,jungleBird];
+ sounds[Math.floor(Math.random()*sounds.length)]();
+}
+
+function startAnimals(){
+ if(animalTimer)return;
+ animalTimer=setInterval(()=>{
+  if(musicOn&&!state.finished)animalSound();
+ },9000+Math.random()*4000);
+}
+
+function stopAnimals(){
+ if(animalTimer){
+  clearInterval(animalTimer);
+  animalTimer=null;
+ }
+}
+
+function sfx(kind){
+ audioStart();
+ if(kind==='tap')tone(520,.08,'triangle',.08);
+ if(kind==='good')[523,659,784].forEach((f,i)=>tone(f,.22,'sine',.11,i*.11));
+ if(kind==='bad'){tone(220,.22,'triangle',.08);tone(165,.25,'sine',.06,.12)}
+ if(kind==='jump'){tone(360,.12,'sine',.07);tone(540,.13,'sine',.05,.08)}
+ if(kind==='level')[392,494,587,784].forEach((f,i)=>tone(f,.35,'triangle',.1,i*.12));
+ if(kind==='open')[330,440,554,740].forEach((f,i)=>tone(f,.3,'sine',.08,i*.09));
+}
+
+// Suara Bahasa Melayu
+function speak(text){
+ if(!voiceOn||!('speechSynthesis'in window))return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='ms-MY';
+ u.rate=.9;
+ u.pitch=1.02;
+ u.volume=1;
+
+ const voices=speechSynthesis.getVoices();
+ const v=voices.find(x=>x.lang.toLowerCase().includes('ms'));
+ if(v)u.voice=v;
+ speechSynthesis.speak(u);
+}
+
+function stopVoice(){
+ if('speechSynthesis'in window)speechSynthesis.cancel();
+}
+
+$('voiceBtn').onclick=()=>{
+ voiceOn=!voiceOn;
+ $('voiceBtn').textContent=voiceOn?'🔊 BACA':'🔇 SENYAP';
+ if(!voiceOn)stopVoice();
+ else{
+  audioStart();
+  speak('Suara permainan diaktifkan.');
+ }
+};
+
+$('soundBtn').onclick=()=>{
+ musicOn=!musicOn;
+ $('soundBtn').textContent=musicOn?'♫ ON':'♫ OFF';
+ if(musicOn){
+  audioStart();
+  startMusic();
+ }else{
+  stopMusic();
+ }
+ sfx('tap');
+};
+
+// ==================================
+// DUNIA 3D BORNEO
+// ==================================
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x91d4df);
+scene.fog=new THREE.Fog(0x91d4df,30,110);
+
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,250);
+
+const renderer=new THREE.WebGLRenderer({
+ antialias:true,
+ powerPreference:'high-performance'
+});
+
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+
+$('game').appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xdffaff,0x385b36,2.1));
+
+const sun=new THREE.DirectionalLight(0xffe5b3,2.4);
+sun.position.set(-25,40,20);
+sun.castShadow=true;
+sun.shadow.mapSize.set(1024,1024);
+scene.add(sun);
+
+const mat=(c,r=.85)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
+
+const green=mat(0x276b42);
+const leaf2=mat(0x39864c);
+const trunk=mat(0x765035);
+const groundMat=mat(0x4c9852);
+const sand=mat(0xc8b17a);
+const wood=mat(0x79563a);
+const roof=mat(0x934b36);
+const water=new THREE.MeshStandardMaterial({
+ color:0x38aeb4,roughness:.22,metalness:.1,
+ transparent:true,opacity:.9
+});
+
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),groundMat);
+ground.rotation.x=-Math.PI/2;
+ground.receiveShadow=true;
+scene.add(ground);
+
+// Gunung
+for(let i=0;i<12;i++){
+ const h=10+Math.random()*14;
+ const m=new THREE.Mesh(
+  new THREE.ConeGeometry(14+Math.random()*9,h,6),
+  mat(i%2?0x668f69:0x779e78)
+ );
+ m.position.set((i-6)*23,h/2-1,-65-Math.random()*22);
+ m.scale.z=1.4;
+ scene.add(m);
+}
+
+// Sungai
+const river=new THREE.Mesh(new THREE.PlaneGeometry(17,150),water);
+river.rotation.x=-Math.PI/2;
+river.position.set(13,.08,-34);
+river.rotation.z=-.18;
+scene.add(river);
+
+// Jalan
+const path=new THREE.Mesh(new THREE.PlaneGeometry(8,110),sand);
+path.rotation.x=-Math.PI/2;
+path.position.set(-1,.025,-28);
+scene.add(path);
+
+// Pokok
+function tree(x,z,s=1){
+ const g=new THREE.Group();
+ const t=new THREE.Mesh(new THREE.CylinderGeometry(.28*s,.42*s,3.2*s,7),trunk);
+ t.position.y=1.6*s;
+ t.castShadow=true;
+ g.add(t);
+
+ for(let j=0;j<5;j++){
+  const crown=new THREE.Mesh(
+   new THREE.IcosahedronGeometry((1.15+Math.random()*.35)*s,1),
+   j%2?green:leaf2
+  );
+  crown.position.set(
+   (Math.random()-.5)*1.3*s,
+   3.1*s+j*.18*s,
+   (Math.random()-.5)*1.3*s
+  );
+  crown.castShadow=true;
+  g.add(crown);
+ }
+ g.position.set(x,0,z);
+ scene.add(g);
+}
+
+for(let i=0;i<90;i++){
+ let x=(Math.random()-.5)*130;
+ let z=-95+Math.random()*145;
+ if(Math.abs(x-13)<11&&z<15&&z>-90)continue;
+ if(Math.abs(x+1)<5&&z<15&&z>-90)continue;
+ tree(x,z,.65+Math.random()*.8);
+}
+
+// Rumah kampung
+function house(x,z){
+ const g=new THREE.Group();
+ const base=new THREE.Mesh(new THREE.BoxGeometry(5,2.8,4),wood);
+ base.position.y=2;
+ g.add(base);
+
+ const r=new THREE.Mesh(new THREE.ConeGeometry(3.7,2.1,4),roof);
+ r.rotation.y=Math.PI/4;
+ r.position.y=4.3;
+ g.add(r);
+
+ const deck=new THREE.Mesh(new THREE.BoxGeometry(6,.25,5),sand);
+ deck.position.set(0,.65,0);
+ g.add(deck);
+
+ g.position.set(x,0,z);
+ g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});
+ scene.add(g);
+}
+
+house(-14,-22);
+house(-23,-31);
+house(-10,-38);
+
+// Jambatan
+const bridge=new THREE.Mesh(new THREE.BoxGeometry(5,.35,18),wood);
+bridge.position.set(10,.55,-30);
+bridge.rotation.y=-.18;
+bridge.castShadow=true;
+scene.add(bridge);
+
+// ==================================
+// SUPERHERO 3D
+// ==================================
+
+const hero=new THREE.Group();
+const heroBody=new THREE.Group();
+hero.add(heroBody);
+
+const blue=mat(0x1255a1,.48);
+const blueDark=mat(0x092e66,.5);
+const gold=mat(0xffd04d,.4);
+const red=mat(0xc72c37,.48);
+const skin=mat(0xd69a68);
+const black=mat(0x17202d);
+const white=mat(0xffffff);
+
+function addMesh(geo,material,parent,x,y,z){
+ const m=new THREE.Mesh(geo,material);
+ m.position.set(x,y,z);
+ m.castShadow=true;
+ m.receiveShadow=true;
+ parent.add(m);
+ return m;
+}
+
+// Badan utama
+addMesh(new THREE.CapsuleGeometry(.48,.85,5,12),blue,heroBody,0,1.1,0);
+
+// Dada superhero
+addMesh(new THREE.BoxGeometry(.72,.72,.12),blueDark,heroBody,0,1.42,-.42);
+
+// Lambang dada
+const emblem=new THREE.Group();
+heroBody.add(emblem);
+addMesh(new THREE.CylinderGeometry(.25,.25,.09,24),gold,emblem,0,1.53,-.51);
+const starShape=new THREE.Shape();
+starShape.moveTo(0,.24);
+starShape.lineTo(.065,.07);
+starShape.lineTo(.24,.07);
+starShape.lineTo(.1,-.045);
+starShape.lineTo(.15,-.22);
+starShape.lineTo(0,-.11);
+starShape.lineTo(-.15,-.22);
+starShape.lineTo(-.1,-.045);
+starShape.lineTo(-.24,.07);
+starShape.lineTo(-.065,.07);
+starShape.closePath();
+const star=new THREE.Mesh(
+ new THREE.ShapeGeometry(starShape),
+ blueDark
+);
+star.position.set(0,1.53,-.57);
+heroBody.add(star);
+
+// Kepala
+addMesh(new THREE.SphereGeometry(.4,16,12),skin,heroBody,0,2.05,0);
+
+// Topeng superhero
+const mask=addMesh(new THREE.BoxGeometry(.76,.23,.12),blueDark,heroBody,0,2.11,-.34);
+
+// Mata
+addMesh(new THREE.SphereGeometry(.055,8,8),white,heroBody,-.14,2.12,-.42);
+addMesh(new THREE.SphereGeometry(.055,8,8),white,heroBody,.14,2.12,-.42);
+
+// Topi/helmet
+const helmet=addMesh(
+ new THREE.SphereGeometry(.43,16,8,0,Math.PI*2,0,Math.PI/2),
+ gold,heroBody,0,2.32,0
+);
+addMesh(new THREE.BoxGeometry(.92,.09,.2),blueDark,heroBody,0,2.24,-.02);
+
+// Jubah
+const capeGeo=new THREE.BufferGeometry();
+const capeVertices=new Float32Array([
+ -.37,1.9,.25,
+ .37,1.9,.25,
+ -.58,.25,.65,
+ .58,.25,.65
+]);
+capeGeo.setAttribute('position',new THREE.BufferAttribute(capeVertices,3));
+capeGeo.setIndex([0,2,1,1,2,3]);
+capeGeo.computeVertexNormals();
+
+const capeMat=new THREE.MeshStandardMaterial({
+ color:0xd52f3b,
+ side:THREE.DoubleSide,
+ roughness:.6
+});
+const cape=new THREE.Mesh(capeGeo,capeMat);
+heroBody.add(cape);
+
+// Bahu
+addMesh(new THREE.SphereGeometry(.26,12,10),gold,heroBody,-.53,1.63,0);
+addMesh(new THREE.SphereGeometry(.26,12,10),gold,heroBody,.53,1.63,0);
+
+// Lengan bergerak
+function limb(x,y,z,length,material){
+ const pivot=new THREE.Group();
+ pivot.position.set(x,y,z);
+ heroBody.add(pivot);
+ addMesh(new THREE.CapsuleGeometry(.15,length*.45,4,8),material,pivot,0,-length*.45,0);
+ return pivot;
+}
+
+const leftArm=limb(-.59,1.62,0,.62,blue);
+const rightArm=limb(.59,1.62,0,.62,blue);
+
+// Sarung tangan
+addMesh(new THREE.SphereGeometry(.18,10,8),gold,leftArm,0,-.64,0);
+addMesh(new THREE.SphereGeometry(.18,10,8),gold,rightArm,0,-.64,0);
+
+// Kaki
+const leftLeg=limb(-.24,.72,0,.7,blueDark);
+const rightLeg=limb(.24,.72,0,.7,blueDark);
+
+// But superhero
+addMesh(new THREE.BoxGeometry(.34,.23,.48),black,leftLeg,0,-.68,-.06);
+addMesh(new THREE.BoxGeometry(.34,.23,.48),black,rightLeg,0,-.68,-.06);
+
+// Jalur pinggang
+addMesh(new THREE.BoxGeometry(.83,.13,.5),gold,heroBody,0,.76,0);
+
+// Beg kecil superhero
+addMesh(new THREE.BoxGeometry(.42,.58,.25),red,heroBody,0,1.12,.39);
+
+// Lambang belakang
+addMesh(new THREE.SphereGeometry(.12,8,8),gold,heroBody,0,1.5,.55);
+
+const player=new THREE.Group();
+player.add(hero);
+player.position.set(0,0,5);
+scene.add(player);
+
+// ==================================
+// HAIWAN BORNEO 3D
+// ==================================
+
+const animals=[];
+
+function animalBody(color,x,z,type){
+ const g=new THREE.Group();
+ const fur=mat(color);
+ if(type==='bird'){
+  addMesh(new THREE.SphereGeometry(.35,10,8),fur,g,0,1.5,0);
+  addMesh(new THREE.SphereGeometry(.22,10,8),fur,g,0,1.85,0);
+  addMesh(new THREE.ConeGeometry(.09,.3,5),gold,g,.28,1.84,0).rotation.z=-1.2;
+  addMesh(new THREE.ConeGeometry(.17,.55,5),red,g,0,2.05,.12);
+ }else if(type==='monkey'){
+  addMesh(new THREE.SphereGeometry(.38,12,10),fur,g,0,1.25,0);
+  addMesh(new THREE.SphereGeometry(.26,12,10),skin,g,0,1.75,0);
+  addMesh(new THREE.TorusGeometry(.45,.06,6,20),fur,g,0,.8,.3).rotation.x=Math.PI/2;
+ }else{
+  addMesh(new THREE.SphereGeometry(.5,12,10),fur,g,0,.75,0);
+  addMesh(new THREE.SphereGeometry(.26,12,10),fur,g,0,1.15,0);
+  addMesh(new THREE.SphereGeometry(.12,8,8),gold,g,.2,1.17,-.1);
+ }
+ g.position.set(x,0,z);
+ scene.add(g);
+ animals.push({group:g,type,baseY:0,phase:Math.random()*6});
+}
+
+animalBody(0xffb92e,-9,-15,'bird');
+animalBody(0x298c55,18,-19,'monkey');
+animalBody(0x7aab46,7,-48,'frog');
+animalBody(0x2b9d6b,27,-57,'bird');
+animalBody(0x9b653e,-28,-50,'monkey');
+
+// ==================================
+// PENANDA MISI
+// ==================================
+
+const markers=[];
+const markerPositions=[[-5,-8],[-18,-25],[18,-47],[1,-62],[26,-77]];
+
+function makeMarker(i,pos){
+ const grp=new THREE.Group();
+
+ const pole=addMesh(new THREE.CylinderGeometry(.09,.12,2,8),wood,grp,0,1,0);
+ const plate=addMesh(new THREE.BoxGeometry(1.35,.85,.16),gold,grp,0,2,0);
+ const ring=new THREE.Mesh(
+  new THREE.TorusGeometry(1.05,.08,8,24),
+  new THREE.MeshBasicMaterial({color:0xffe18a})
+ );
+ ring.rotation.x=Math.PI/2;
+ ring.position.y=.12;
+ grp.add(ring);
+
+ const number=addMesh(
+  new THREE.BoxGeometry(.55,.55,.18),
+  mat([0x3b8760,0x4777a4,0x4b9a85,0x9b6a9a,0xb17a37][i]),
+  grp,0,2,-.12
+ );
+
+ grp.position.set(pos[0],0,pos[1]);
+ grp.userData.mission=i;
+ scene.add(grp);
+ markers.push(grp);
+}
+
+markerPositions.forEach((p,i)=>makeMarker(i,p));
+
+// ==================================
+// KAMERA DAN KAWALAN
+// ==================================
+
+let yaw=0,pitch=.27;
+let joyX=0,joyY=0;
+let running=false;
+let velocityY=0,onGround=true;
+let near=-1,missionAnswered=false;
+let dragging=false,lastX=0,lastY=0;
+
+function updateCamera(){
+ const dist=8.2;
+ const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);
+ const horiz=Math.cos(pitch)*dist;
+ camera.position.set(
+  target.x+Math.sin(yaw)*horiz,
+  target.y+Math.sin(pitch)*dist+1.4,
+  target.z+Math.cos(yaw)*horiz
+ );
+ camera.lookAt(target);
+}
+
+renderer.domElement.addEventListener('pointerdown',e=>{
+ if(e.clientX>innerWidth*.38){
+  dragging=true;
+  lastX=e.clientX;
+  lastY=e.clientY;
+  renderer.domElement.setPointerCapture(e.pointerId);
+ }
+});
+
+renderer.domElement.addEventListener('pointermove',e=>{
+ if(!dragging)return;
+ const dx=e.clientX-lastX;
+ const dy=e.clientY-lastY;
+ lastX=e.clientX;
+ lastY=e.clientY;
+ yaw-=dx*.006;
+ pitch=Math.max(-.05,Math.min(.65,pitch+dy*.003));
+});
+
+renderer.domElement.addEventListener('pointerup',()=>dragging=false);
+renderer.domElement.addEventListener('pointercancel',()=>dragging=false);
+
+const joy=$('joy');
+const stick=$('stick');
+let joyPointer=null;
+
+function setJoy(e){
+ const r=joy.getBoundingClientRect();
+ let dx=e.clientX-(r.left+r.width/2);
+ let dy=e.clientY-(r.top+r.height/2);
+ const max=40,len=Math.hypot(dx,dy);
+ if(len>max){dx=dx/len*max;dy=dy/len*max}
+ joyX=dx/max;
+ joyY=dy/max;
+ stick.style.transform=`translate(${dx}px,${dy}px)`;
+}
+
+joy.addEventListener('pointerdown',e=>{
+ joyPointer=e.pointerId;
+ joy.setPointerCapture(e.pointerId);
+ setJoy(e);
+});
+
+joy.addEventListener('pointermove',e=>{
+ if(e.pointerId===joyPointer)setJoy(e);
+});
+
+function joyEnd(){
+ joyPointer=null;
+ joyX=joyY=0;
+ stick.style.transform='translate(0,0)';
+}
+joy.addEventListener('pointerup',joyEnd);
+joy.addEventListener('pointercancel',joyEnd);
+
+$('runBtn').onpointerdown=()=>running=true;
+$('runBtn').onpointerup=()=>running=false;
+$('runBtn').onpointerleave=()=>running=false;
+$('runBtn').onpointercancel=()=>running=false;
+
+$('jumpBtn').onclick=()=>{
+ if(onGround){
+  velocityY=7.2;
+  onGround=false;
+  sfx('jump');
+ }
+};
+
+// ==================================
+// SISTEM MISI
+// ==================================
+
+function nearestMarker(){
+ const nextIndex=missions.findIndex((_,i)=>!state.done.includes(i));
+ let best=-1,d=999;
+
+ markers.forEach((m,i)=>{
+  if(i!==nextIndex||state.done.includes(i))return;
+  const dx=player.position.x-m.position.x;
+  const dz=player.position.z-m.position.z;
+  const dd=Math.hypot(dx,dz);
+  if(dd<d){d=dd;best=i}
+ });
+ return d<4.5?best:-1;
+}
+
+function openMission(i){
+ if(i<0)return;
+ near=i;
+ missionAnswered=false;
+
+ const m=missions[i];
+
+ $('missionNo').textContent=`MISI ${i+1}/5`;
+ $('missionTitle').textContent=m.title;
+ $('missionStory').textContent=m.story;
+ $('feedback').textContent='';
+ $('continueBtn').style.display='none';
+
+ $('choices').innerHTML=m.choices.map((c,j)=>
+  `<button class="choice" data-choice="${j}">${String.fromCharCode(65+j)}. ${c[0]}</button>`
+ ).join('');
+
+ document.querySelectorAll('[data-choice]').forEach(b=>{
+  b.onclick=()=>choose(i,Number(b.dataset.choice));
+ });
+
+ panel('missionPanel');
+ audioStart();
+ sfx('tap');
+ speak(`Misi ${i+1}. ${m.title}. ${m.story}`);
+}
+
+function readQuestion(){
+ const i=near;
+ if(i<0)return;
+ speak(missions[i].story);
+}
+
+function readChoices(){
+ const i=near;
+ if(i<0)return;
+ const m=missions[i];
+ speak('Pilihan jawapan. '+m.choices.map((c,j)=>
+  `Pilihan ${String.fromCharCode(65+j)}. ${c[0]}`
+ ).join('. '));
+}
+
+$('readQuestion').onclick=readQuestion;
+$('readChoices').onclick=readChoices;
+
+function choose(i,j){
+ if(missionAnswered)return;
+ missionAnswered=true;
+
+ const m=missions[i];
+ const pts=m.choices[j][1];
+ const oldLevel=level();
+
+ state.score+=pts;
+ state.xp+=pts;
+ state.done.push(i);
+
+ // Pengukuhan empat teras karakter
+ if(pts>0){
+  if(i===0){
+   state.traits.aktif+=2;
+   state.traits.pimpin+=1;
+  }else if(i===1){
+   state.traits.penyayang+=2;
+   state.traits.pimpin+=1;
+  }else if(i===2){
+   state.traits.aktif+=2;
+   state.traits.tahan+=1;
+  }else if(i===3){
+   state.traits.penyayang+=2;
+   state.traits.tahan+=1;
+  }else if(i===4){
+   state.traits.tahan+=2;
+   state.traits.pimpin+=1;
+  }
+ }
+
+ state.index=Math.min(i+1,4);
+ save();
+ updateHud();
+
+ document.querySelectorAll('[data-choice]').forEach((b,n)=>{
+  b.disabled=true;
+  if(n===m.good)b.classList.add('correct');
+  if(n===j&&n!==m.good)b.classList.add('wrong');
+ });
+
+ let explanation=pts>=10?
+ 'Syabas! Kamu memilih tindakan yang tepat.':
+ 'Setiap pilihan memberi peluang untuk belajar.';
+
+ $('feedback').textContent=pts>=10?
+ 'Pilihan cemerlang! Kamu memperoleh 10 Mata dan 10 XP.':
+ 'Pilihan direkodkan. Terus belajar dan perbaiki tindakan.';
+
+ $('continueBtn').style.display='block';
+
+ if(pts>=10)sfx('good');
+ else sfx('bad');
+
+ if(level()>oldLevel)setTimeout(()=>sfx('level'),350);
+
+ $('rewardTitle').textContent=pts>=10?'PILIHAN CEMERLANG!':'MISI DIREKODKAN';
+ $('rewardText').textContent=`+${pts} MATA • +${pts} XP`;
+ $('reward').classList.add('show');
+
+ sfx('open');
+
+ speak(explanation+' '+m.title+'. '+m.trait+'.');
+}
+
+$('rewardClose').onclick=()=>{
+ $('reward').classList.remove('show');
+};
+
+$('continueBtn').onclick=()=>{
+ stopVoice();
+ panel('');
+
+ if(state.done.length===5){
+  state.finished=true;
+  save();
+
+  stopMusic();
+  stopAnimals();
+
+  $('finishSummary').textContent=
+   `${state.score} Mata • ${state.xp} XP • Tahap ${level()}. Semua lima misi telah diselesaikan.`;
+
+  panel('finishPanel');
+  speak('Tahniah, wira karakter! Kamu telah menyelesaikan semua misi. Pengembaraan kamu telah tamat.');
+ }else{
+  $('hint').textContent='Teruskan meneroka dan cari tanda misi seterusnya.';
+  speak('Teruskan pengembaraan. Cari penanda misi seterusnya.');
+ }
+};
+
+$('actionBtn').onclick=()=>{
+ audioStart();
+ if(near>=0)openMission(near);
+ else{
+  sfx('tap');
+  speak('Teruskan bergerak. Cari penanda misi yang bercahaya.');
+ }
+};
+
+// ==================================
+// KEMAJUAN
+// ==================================
+
+function renderProgress(){
+ $('progressSummary').textContent=
+ `${state.score} Mata • ${state.xp} XP • Tahap ${level()}`;
+
+ $('traitList').innerHTML=Object.keys(traitNames).map(k=>
+ `<div class="trait">${traitNames[k]}
+ <span style="float:right">${state.traits[k]} XP karakter</span>
+ <div class="bar"><span style="width:${Math.min(100,state.traits[k]*10)}%"></span></div>
+ </div>`
+ ).join('');
+}
+
+$('menuBtn').onclick=()=>{
+ audioStart();
+ renderProgress();
+ panel('progressPanel');
+ sfx('tap');
+};
+
+$('backBtn').onclick=()=>panel('');
+$('progressBtn').onclick=()=>{
+ renderProgress();
+ panel('progressPanel');
+};
+
+$('resetBtn').onclick=()=>{
+ if(confirm('Mula semula? Kemajuan KP2027 akan dipadam.')){
+  state=fresh();
+  save();
+  updateHud();
+  markers.forEach(m=>m.visible=true);
+  renderProgress();
+  stopMusic();
+  stopAnimals();
+  speak('Permainan dimulakan semula.');
+ }
+};
+
+$('finishBack').onclick=()=>{
+ panel('');
+};
+
+$('playBtn').onclick=()=>{
+ audioStart();
+ panel('');
+
+ if(state.done.length===5){
+  $('finishSummary').textContent=
+   `${state.score} Mata • ${state.xp} XP • Tahap ${level()}`;
+  panel('finishPanel');
+ }else{
+  speak('Selamat datang ke Pengembaraan Borneo. Wira muda, bersedia untuk memulakan misi? Mari kita terokai dunia ini.');
+ }
+};
+
+// ==================================
+// ANIMASI
+// ==================================
+
+const clock=new THREE.Clock();
+
+function animate(){
+ requestAnimationFrame(animate);
+
+ const dt=Math.min(clock.getDelta(),.04);
+
+ const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+ const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
+
+ const move=new THREE.Vector3();
+ move.addScaledVector(forward,-joyY);
+ move.addScaledVector(right,joyX);
+
+ if(move.lengthSq()>1)move.normalize();
+
+ const moving=move.lengthSq()>.001;
+ const speed=running?9:5.2;
+
+ if(moving){
+  player.position.addScaledVector(move,speed*dt);
+  player.rotation.y=Math.atan2(move.x,move.z);
+
+  const step=clock.elapsedTime*(running?13:8);
+  leftLeg.rotation.x=Math.sin(step)*.65;
+  rightLeg.rotation.x=-Math.sin(step)*.65;
+  leftArm.rotation.x=-Math.sin(step)*.5;
+  rightArm.rotation.x=Math.sin(step)*.5;
+
+  heroBody.position.y=.04+Math.abs(Math.sin(step))*.05;
+ }else{
+  leftLeg.rotation.x=THREE.MathUtils.damp(leftLeg.rotation.x,0,8,dt);
+  rightLeg.rotation.x=THREE.MathUtils.damp(rightLeg.rotation.x,0,8,dt);
+  leftArm.rotation.x=THREE.MathUtils.damp(leftArm.rotation.x,0,8,dt);
+  rightArm.rotation.x=THREE.MathUtils.damp(rightArm.rotation.x,0,8,dt);
+  heroBody.position.y=.025*Math.sin(clock.elapsedTime*2);
+ }
+
+ // Jubah bergerak
+ cape.rotation.x=Math.sin(clock.elapsedTime*5)*.09;
+ cape.rotation.z=Math.sin(clock.elapsedTime*3)*.07;
+
+ // Lompat
+ velocityY-=18*dt;
+ player.position.y+=velocityY*dt;
+
+ if(player.position.y<0){
+  player.position.y=0;
+  velocityY=0;
+  onGround=true;
+ }
+
+ player.position.x=THREE.MathUtils.clamp(player.position.x,-48,48);
+ player.position.z=THREE.MathUtils.clamp(player.position.z,-96,18);
+
+ // Haiwan bergerak
+ animals.forEach(a=>{
+  const t=clock.elapsedTime+a.phase;
+  a.group.position.y=Math.sin(t*2)*.09;
+  a.group.rotation.y=Math.sin(t*.6)*.3;
+
+  if(a.type==='bird'){
+   a.group.position.y+=Math.abs(Math.sin(t*4))*.12;
+  }
+ });
+
+ // Penanda misi
+ markers.forEach((m,i)=>{
+  m.visible=!state.done.includes(i);
+  m.children[2].rotation.z=clock.elapsedTime*.8;
+  m.children[2].position.y=.12+Math.sin(clock.elapsedTime*2+i)*.08;
+ });
+
+ near=nearestMarker();
+
+ $('nearMsg').classList.toggle(
+  'show',
+  near>=0&&!$('missionPanel').classList.contains('show')
+ );
+
+ updateCamera();
+ renderer.render(scene,camera);
+}
+
+animate();
+
+addEventListener('resize',()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+});
+
+// Suara haiwan bermula selepas interaksi pertama
+speechSynthesis?.getVoices?.();
+
 </script>
-</body></html>
+</body>
+</html>
