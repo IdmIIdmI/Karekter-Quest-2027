@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#102d25">
-<title>KP2027 — Pengembaraan Borneo 3D</title>
+<title>KP2027 REAL — Pengembaraan Borneo</title>
 <style>
 :root{--gold:#ffd36d;--cream:#fff8e8;--green:#123b2c}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#102d25;font-family:system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#102d25;font-family:system-ui,sans-serif;touch-action:none}
 #game{position:fixed;inset:0}
 canvas{display:block;width:100%;height:100%}
 #hud{position:absolute;inset:0;pointer-events:none;color:white}
@@ -43,7 +43,7 @@ canvas{display:block;width:100%;height:100%}
 .bar span{display:block;height:100%;background:linear-gradient(90deg,#4a9a69,#d4ad4b)}
 .traits{display:grid;gap:7px}
 .trait{background:#edf3e9;border-radius:12px;padding:9px;font-size:13px;font-weight:800}
-.reward{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,#ffe9a6aa,#071c16eF 65%);z-index:5;color:white;text-align:center;pointer-events:auto}
+.reward{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,#ffe9a6aa,#071c16ef 65%);z-index:5;color:white;text-align:center;pointer-events:auto}
 .reward.show{display:flex}
 .rewardBox{padding:28px;animation:pop .7s cubic-bezier(.2,1.6,.3,1)}
 .chest{font-size:100px;filter:drop-shadow(0 0 24px #ffdb65);animation:float 1.3s infinite alternate}
@@ -59,7 +59,14 @@ canvas{display:block;width:100%;height:100%}
 .heroEmoji{font-size:34px;display:block;margin-bottom:4px}
 .heroDesc{font-size:11px;font-weight:600;color:#60756b}
 .meter{font-size:13px;font-weight:900;color:#245a3d}
-@media(max-width:390px){.joy{width:116px;height:116px}.stick{left:31px;top:31px}.actions{grid-template-columns:repeat(2,62px)}.act{height:58px}.stats{gap:7px;padding:8px}.hint{top:62px;font-size:11px}}
+@media(max-width:390px){
+.joy{width:116px;height:116px}
+.stick{left:31px;top:31px}
+.actions{grid-template-columns:repeat(2,62px)}
+.act{height:58px}
+.stats{gap:7px;padding:8px}
+.hint{top:62px;font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -88,109 +95,172 @@ canvas{display:block;width:100%;height:100%}
 </div>
 </div>
 </div>
-<div class="panel show" id="homePanel"><div class="card" style="text-align:center"><div style="font-size:56px">🌴</div><div class="eyebrow">KARAKTER QUEST 2027</div><h1>Pengembaraan Borneo</h1><p>Terokai dunia 3D, temui lima misi dan bina karakter melalui pilihan kamu.</p><p class="small">Prototaip 3D untuk telefon • Kawalan skrin sentuh</p><button class="btn" id="playBtn">MULA PENGEMBARAAN</button><button class="btn alt" id="progressBtn">LIHAT KEMAJUAN</button></div></div>
 
-<div class="panel" id="heroPanel"><div class="card"><div class="eyebrow">PILIHAN WIRA TAHAP 1</div><h2>Siapa teman pengembaraan kamu?</h2><p>Kenali lima wira. Sentuh pilihan untuk melihat identiti mereka.</p><div class="heroGrid" id="heroGrid"><button class="heroPick active" data-hero="arnab"><span class="heroEmoji">🐰</span>Arnab<span class="heroDesc">Wira Lincah</span></button><button class="heroPick" data-hero="hamster"><span class="heroEmoji">🐹</span>Hamster<span class="heroDesc">Wira Ketahanan</span></button><button class="heroPick" data-hero="kucing"><span class="heroEmoji">🐱</span>Kucing<span class="heroDesc">Wira Ketangkasan</span></button><button class="heroPick" data-hero="cenderawasih"><span class="heroEmoji">🦜</span>Cenderawasih<span class="heroDesc">Wira Udara</span></button><button class="heroPick" data-hero="kijang"><span class="heroEmoji">🦌</span>Kijang<span class="heroDesc">Wira Kepantasan</span></button></div><p id="heroInfo" class="trait">Arnab — lincah, ingin tahu dan berani mencuba.</p><button class="btn" id="chooseHeroBtn">PILIH WIRA INI</button><button class="btn alt" id="heroBackBtn">KEMBALI</button></div></div>
+<div class="panel show" id="homePanel">
+<div class="card" style="text-align:center">
+<div style="font-size:56px">🌴</div>
+<div class="eyebrow">KARAKTER QUEST 2027</div>
+<h1>Pengembaraan Borneo</h1>
+<p>Terokai dunia 3D, temui lima misi dan bina karakter melalui pilihan kamu.</p>
+<p class="small">Prototaip 3D untuk telefon • Kawalan skrin sentuh</p>
+<button class="btn" id="playBtn">MULA PENGEMBARAAN</button>
+<button class="btn alt" id="progressBtn">LIHAT KEMAJUAN</button>
+</div>
+</div>
 
-<div class="panel" id="missionPanel"><div class="card"><div class="eyebrow" id="missionNo">MISI 1/5</div><h2 id="missionTitle">AMANAH</h2><p id="missionStory"></p><b>Apakah tindakan kamu?</b><div id="choices"></div><div id="feedback" class="small"></div><button class="btn" id="continueBtn" style="display:none">KEMBALI KE PENGEMBARAAN</button></div></div>
+<div class="panel" id="heroPanel">
+<div class="card">
+<div class="eyebrow">PILIHAN WIRA TAHAP 1</div>
+<h2>Siapa teman pengembaraan kamu?</h2>
+<p>Kenali lima wira. Sentuh pilihan untuk melihat identiti mereka.</p>
+<div class="heroGrid" id="heroGrid">
+<button class="heroPick active" data-hero="arnab"><span class="heroEmoji">🐰</span>Arnab<span class="heroDesc">Wira Lincah</span></button>
+<button class="heroPick" data-hero="hamster"><span class="heroEmoji">🐹</span>Hamster<span class="heroDesc">Wira Ketahanan</span></button>
+<button class="heroPick" data-hero="kucing"><span class="heroEmoji">🐱</span>Kucing<span class="heroDesc">Wira Ketangkasan</span></button>
+<button class="heroPick" data-hero="cenderawasih"><span class="heroEmoji">🦜</span>Cenderawasih<span class="heroDesc">Wira Udara</span></button>
+<button class="heroPick" data-hero="kijang"><span class="heroEmoji">🦌</span>Kijang<span class="heroDesc">Wira Kepantasan</span></button>
+</div>
+<p id="heroInfo" class="trait">Arnab — lincah, ingin tahu dan berani mencuba.</p>
+<button class="btn" id="chooseHeroBtn">PILIH WIRA INI</button>
+<button class="btn alt" id="heroBackBtn">KEMBALI</button>
+</div>
+</div>
 
-<div class="panel" id="progressPanel"><div class="card"><div class="eyebrow">JEJAK WIRA BORNEO</div><h2>Perkembangan Karakter</h2><p class="meter" id="progressSummary">0 Mata • 0 XP • Tahap 1</p><div id="traitList" class="traits"></div><button class="btn" id="backBtn">KEMBALI</button><button class="btn alt" id="resetBtn">MULA SEMULA</button></div></div>
+<div class="panel" id="missionPanel">
+<div class="card">
+<div class="eyebrow" id="missionNo">MISI 1/5</div>
+<h2 id="missionTitle">AMANAH</h2>
+<p id="missionStory"></p>
+<b>Apakah tindakan kamu?</b>
+<div id="choices"></div>
+<div id="feedback" class="small"></div>
+<button class="btn" id="continueBtn" style="display:none">KEMBALI KE PENGEMBARAAN</button>
+</div>
+</div>
 
-<div class="panel" id="finishPanel"><div class="card" style="text-align:center"><div style="font-size:58px">🏆</div><div class="eyebrow">PENGEMBARAAN SELESAI</div><h1>Wira Karakter Hebat!</h1><p id="finishSummary"></p><button class="btn" id="finishBack">TEROKAI DUNIA</button></div></div>
+<div class="panel" id="progressPanel">
+<div class="card">
+<div class="eyebrow">JEJAK WIRA BORNEO</div>
+<h2>Perkembangan Karakter</h2>
+<p class="meter" id="progressSummary">0 Mata • 0 XP • Tahap 1</p>
+<div id="traitList" class="traits"></div>
+<button class="btn" id="backBtn">KEMBALI</button>
+<button class="btn alt" id="resetBtn">MULA SEMULA</button>
+</div>
+</div>
 
-<div class="reward" id="reward"><div class="rewardBox"><div class="chest">🎁</div><div class="eyebrow" style="color:#ffe7a1">PENCAPAIAN MISI</div><h1 id="rewardTitle">HEBAT!</h1><p id="rewardText">+10 MATA • +10 XP</p><button id="rewardClose">TERUSKAN</button></div></div>
+<div class="panel" id="finishPanel">
+<div class="card" style="text-align:center">
+<div style="font-size:58px">🏆</div>
+<div class="eyebrow">PENGEMBARAAN SELESAI</div>
+<h1>Wira Karakter Hebat!</h1>
+<p id="finishSummary"></p>
+<button class="btn" id="finishBack">TEROKAI DUNIA</button>
+</div>
+</div>
+
+<div class="reward" id="reward">
+<div class="rewardBox">
+<div class="chest">🎁</div>
+<div class="eyebrow" style="color:#ffe7a1">PENCAPAIAN MISI</div>
+<h1 id="rewardTitle">HEBAT!</h1>
+<p id="rewardText">+10 MATA • +10 XP</p>
+<button id="rewardClose">TERUSKAN</button>
+</div>
+</div>
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const $=id=>document.getElementById(id);
 
 const missions=[
- {title:'AMANAH',story:'Kamu menemui sebuah dompet di kantin sekolah. Tiada sesiapa berada berdekatan. Apakah tindakan kamu?',choices:[['Simpan duit itu',0],['Serahkan kepada guru',10],['Biarkan sahaja',3]]},
- {title:'KERJASAMA',story:'Seorang rakan kelihatan sukar menyiapkan tugasan. Dia meminta bantuan kamu. Apakah tindakan kamu?',choices:[['Biarkan dia',0],['Bantu dan ajar dia',10],['Marah kepadanya',0]]},
- {title:'CINTA ALAM',story:'Kamu melihat sampah dibuang berhampiran sungai kampung. Apakah tindakan kamu?',choices:[['Buang sampah ke sungai',0],['Kutip dan buang dengan betul',10],['Tinggalkan sahaja',2]]},
- {title:'PRIHATIN',story:'Seorang rakan terjatuh ketika bermain. Dia kelihatan sakit dan memerlukan bantuan. Apakah tindakan kamu?',choices:[['Ketawakan dia',0],['Bantu dia bangun',10],['Berlari meninggalkannya',0]]},
- {title:'JUJUR',story:'Kamu tidak sengaja merosakkan barang sekolah. Tiada orang melihat kejadian itu. Apakah tindakan kamu?',choices:[['Mengaku dengan jujur',10],['Salahkan rakan',0],['Diam sahaja',2]]}
+{title:'AMANAH',story:'Kamu menemui sebuah dompet di kantin sekolah. Tiada sesiapa berada berdekatan. Apakah tindakan kamu?',choices:[['Simpan duit itu',0],['Serahkan kepada guru',10],['Biarkan sahaja',3]]},
+{title:'KERJASAMA',story:'Seorang rakan kelihatan sukar menyiapkan tugasan. Dia meminta bantuan kamu. Apakah tindakan kamu?',choices:[['Biarkan dia',0],['Bantu dan ajar dia',10],['Marah kepadanya',0]]},
+{title:'CINTA ALAM',story:'Kamu melihat sampah dibuang berhampiran sungai kampung. Apakah tindakan kamu?',choices:[['Buang sampah ke sungai',0],['Kutip dan buang dengan betul',10],['Tinggalkan sahaja',2]]},
+{title:'PRIHATIN',story:'Seorang rakan terjatuh ketika bermain. Dia kelihatan sakit dan memerlukan bantuan. Apakah tindakan kamu?',choices:[['Ketawakan dia',0],['Bantu dia bangun',10],['Berlari meninggalkannya',0]]},
+{title:'JUJUR',story:'Kamu tidak sengaja merosakkan barang sekolah. Tiada orang melihat kejadian itu. Apakah tindakan kamu?',choices:[['Mengaku dengan jujur',10],['Salahkan rakan',0],['Diam sahaja',2]]}
 ];
 
 const traitNames={penyayang:'Penyayang',tahan:'Berdaya Tahan',pimpin:'Berupaya Memimpin',aktif:'Warganegara Aktif'};
 const fresh=()=>({index:0,score:0,xp:0,done:[],traits:{penyayang:0,tahan:0,pimpin:0,aktif:0},finished:false});
 let state=fresh();
+
 try{
- const old=JSON.parse(localStorage.getItem('kp2027_rpg_v1')||'null');
- if(old&&Array.isArray(old.done)&&old.traits)state={...fresh(),...old,traits:{...fresh().traits,...old.traits}};
+const old=JSON.parse(localStorage.getItem('kp2027_rpg_v1')||'null');
+if(old&&Array.isArray(old.done)&&old.traits)
+state={...fresh(),...old,traits:{...fresh().traits,...old.traits}};
 }catch{}
+
 const save=()=>{try{localStorage.setItem('kp2027_rpg_v1',JSON.stringify(state))}catch{}};
 const level=()=>Math.floor(state.xp/20)+1;
 function updateHud(){
- $('level').textContent=level();
- $('xp').textContent=state.xp;
- $('done').textContent=state.done.length+'/5';
+$('level').textContent=level();
+$('xp').textContent=state.xp;
+$('done').textContent=state.done.length+'/5';
 }
 updateHud();
 
 function panel(id){
- ['homePanel','heroPanel','missionPanel','progressPanel','finishPanel'].forEach(x=>$(x).classList.toggle('show',x===id));
+['homePanel','heroPanel','missionPanel','progressPanel','finishPanel'].forEach(x=>$(x).classList.toggle('show',x===id));
 }
 
-// Audio: bunyi dijana dalam pelayar selepas pengguna menyentuh skrin.
 let audioCtx=null,musicOn=true,musicTimer=null,master=null;
 function audioStart(){
- if(!audioCtx){
-  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-  master=audioCtx.createGain();
-  master.gain.value=.12;
-  master.connect(audioCtx.destination);
- }
- if(audioCtx.state==='suspended')audioCtx.resume();
- if(musicOn&&!musicTimer)startMusic();
+if(!audioCtx){
+audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+master=audioCtx.createGain();
+master.gain.value=.12;
+master.connect(audioCtx.destination);
+}
+if(audioCtx.state==='suspended')audioCtx.resume();
+if(musicOn&&!musicTimer)startMusic();
 }
 function tone(freq,dur=.18,type='sine',vol=.12,delay=0){
- if(!audioCtx)return;
- const o=audioCtx.createOscillator(),g=audioCtx.createGain();
- o.type=type;
- o.frequency.value=freq;
- g.gain.setValueAtTime(.0001,audioCtx.currentTime+delay);
- g.gain.exponentialRampToValueAtTime(vol,audioCtx.currentTime+delay+.025);
- g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+dur);
- o.connect(g);
- g.connect(master);
- o.start(audioCtx.currentTime+delay);
- o.stop(audioCtx.currentTime+delay+dur+.04);
+if(!audioCtx)return;
+const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+g.gain.setValueAtTime(.0001,audioCtx.currentTime+delay);
+g.gain.exponentialRampToValueAtTime(vol,audioCtx.currentTime+delay+.025);
+g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+dur);
+o.frequency.value=freq;o.type=type;
+o.connect(g);g.connect(master);
+o.start(audioCtx.currentTime+delay);
+o.stop(audioCtx.currentTime+delay+dur+.04);
 }
 function sfx(kind){
- audioStart();
- if(kind==='tap')tone(520,.08,'triangle',.08);
- else if(kind==='good')[523,659,784].forEach((f,i)=>tone(f,.22,'sine',.11,i*.11));
- else if(kind==='bad'){tone(220,.22,'triangle',.08);tone(165,.25,'sine',.06,.12)}
- else if(kind==='jump'){tone(360,.12,'sine',.07);tone(540,.13,'sine',.05,.08)}
- else if(kind==='level')[392,494,587,784].forEach((f,i)=>tone(f,.35,'triangle',.1,i*.12));
- else if(kind==='open')[330,440,554,740].forEach((f,i)=>tone(f,.42,'sine',.09,i*.09));
+audioStart();
+if(kind==='tap')tone(520,.08,'triangle',.08);
+else if(kind==='good')[523,659,784].forEach((f,i)=>tone(f,.22,'sine',.11,i*.11));
+else if(kind==='bad'){tone(220,.22,'triangle',.08);tone(165,.25,'sine',.06,.12)}
+else if(kind==='jump'){tone(360,.12,'sine',.07);tone(540,.13,'sine',.05,.08)}
+else if(kind==='level')[392,494,587,784].forEach((f,i)=>tone(f,.35,'triangle',.1,i*.12));
+else if(kind==='open')[330,440,554,740].forEach((f,i)=>tone(f,.42,'sine',.09,i*.09));
 }
 function startMusic(){
- if(!audioCtx||musicTimer||!musicOn)return;
- let step=0;
- const notes=[196,247,294,247,220,262,330,262];
- musicTimer=setInterval(()=>{
-  if(!audioCtx||!musicOn)return;
-  const f=notes[step++%notes.length];
-  tone(f,.48,'sine',.022);
-  tone(f*2,.32,'triangle',.009,.08);
- },620);
+if(!audioCtx||musicTimer||!musicOn)return;
+let step=0;
+const notes=[196,247,294,247,220,262,330,262];
+musicTimer=setInterval(()=>{
+if(!audioCtx||!musicOn)return;
+const f=notes[step++%notes.length];
+tone(f,.48,'sine',.022);
+tone(f*2,.32,'triangle',.009,.08);
+},620);
 }
 function stopMusic(){
- if(musicTimer){clearInterval(musicTimer);musicTimer=null}
+if(musicTimer){clearInterval(musicTimer);musicTimer=null}
 }
 $('soundBtn').onclick=()=>{
- musicOn=!musicOn;
- $('soundBtn').textContent=musicOn?'♫ ON':'♫ OFF';
- if(musicOn){audioStart();startMusic()}else stopMusic();
- sfx('tap');
+musicOn=!musicOn;
+$('soundBtn').textContent=musicOn?'♫ ON':'♫ OFF';
+if(musicOn){audioStart();startMusic()}else stopMusic();
+sfx('tap');
 };
 
-// Three.js scene
+// DUNIA 3D BORNEO
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x9ed6d2);
 scene.fog=new THREE.Fog(0x9ed6d2,28,105);
+
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,250);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.65));
@@ -208,496 +278,468 @@ sun.shadow.mapSize.set(1024,1024);
 scene.add(sun);
 
 const mat=(c,r=.9)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
-const green=mat(0x276b42),leaf2=mat(0x39864c),trunk=mat(0x765035),groundMat=mat(0x4c8b52),sand=mat(0xc8b17a),wood=mat(0x79563a),roof=mat(0x934b36),water=new THREE.MeshStandardMaterial({color:0x38aeb4,roughness:.22,metalness:.1,transparent:true,opacity:.9});
+const green=mat(0x276b42),leaf2=mat(0x39864c),trunk=mat(0x765035),groundMat=mat(0x4c8b52),sand=mat(0xc8b17a),wood=mat(0x79563a),roof=mat(0x934b36);
+const water=new THREE.MeshStandardMaterial({color:0x38aeb4,roughness:.22,metalness:.1,transparent:true,opacity:.9});
 
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),groundMat);
 ground.rotation.x=-Math.PI/2;
 ground.receiveShadow=true;
 scene.add(ground);
-  // ==========================================
-// KP2027 — BAHAGIAN 3
-// DUNIA BORNEO, LIMA WIRA & KAWALAN
-// ==========================================
 
-const kpWorld = new THREE.Group();
-scene.add(kpWorld);
-
-// BAHAN DUNIA
-const kpMat = (color, roughness=0.85) =>
-  new THREE.MeshStandardMaterial({color, roughness});
-
-const kpBrown = kpMat(0x79543a);
-const kpDarkBrown = kpMat(0x503725);
-const kpLeaf = kpMat(0x287444);
-const kpLeafLight = kpMat(0x55a65a);
-const kpStone = kpMat(0x777d79);
-const kpGold = kpMat(0xffd34e);
-const kpCream = kpMat(0xffe8c5);
-const kpBlack = kpMat(0x252525);
-
-// FUNGSI BINA OBJEK
-function kpBox(parent, w, h, d, material, x, y, z) {
-  const mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(w, h, d), material
-  );
-  mesh.position.set(x, y, z);
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
-  parent.add(mesh);
-  return mesh;
+// Bukit dan gunung
+for(let i=0;i<10;i++){
+const h=8+Math.random()*13;
+const m=new THREE.Mesh(new THREE.ConeGeometry(13+Math.random()*8,h,6),mat(i%2?0x668f69:0x779e78));
+m.position.set((i-5)*24,h/2-1,-65-Math.random()*22);
+m.scale.z=1.4;
+scene.add(m);
 }
 
-function kpSphere(parent, radius, material, x, y, z, sx=1, sy=1, sz=1) {
-  const mesh = new THREE.Mesh(
-    new THREE.SphereGeometry(radius, 20, 16), material
-  );
-  mesh.position.set(x, y, z);
-  mesh.scale.set(sx, sy, sz);
-  mesh.castShadow = true;
-  parent.add(mesh);
-  return mesh;
+// Sungai
+const river=new THREE.Mesh(new THREE.PlaneGeometry(17,150),water);
+river.rotation.x=-Math.PI/2;
+river.position.set(13,.08,-34);
+river.rotation.z=-.18;
+scene.add(river);
+
+// Laluan
+const path=new THREE.Mesh(new THREE.PlaneGeometry(8,100),sand);
+path.rotation.x=-Math.PI/2;
+path.position.set(-1,.025,-28);
+scene.add(path);
+
+// Pokok tropika
+function tree(x,z,s=1){
+const g=new THREE.Group();
+const t=new THREE.Mesh(new THREE.CylinderGeometry(.28*s,.42*s,3.2*s,7),trunk);
+t.position.y=1.6*s;
+t.castShadow=true;
+g.add(t);
+for(let j=0;j<5;j++){
+const crown=new THREE.Mesh(new THREE.IcosahedronGeometry((1.15+Math.random()*.35)*s,1),j%2?green:leaf2);
+crown.position.set((Math.random()-.5)*1.3*s,3.1*s+j*.18*s,(Math.random()-.5)*1.3*s);
+crown.castShadow=true;
+g.add(crown);
+}
+g.position.set(x,0,z);
+scene.add(g);
+}
+for(let i=0;i<90;i++){
+let x=(Math.random()-.5)*130,z=-95+Math.random()*145;
+if(Math.abs(x-13)<11&&z<15&&z>-90)continue;
+if(Math.abs(x+1)<5&&z<15&&z>-90)continue;
+tree(x,z,.65+Math.random()*.8);
 }
 
-// POKOK BORNEO
-function kpTree(x, z, scale=1) {
-  const tree = new THREE.Group();
-  tree.position.set(x, 0, z);
-  tree.scale.setScalar(scale);
+// Rumah kampung
+function house(x,z){
+const g=new THREE.Group();
+const base=new THREE.Mesh(new THREE.BoxGeometry(5,2.8,4),wood);
+base.position.y=2;g.add(base);
+const r=new THREE.Mesh(new THREE.ConeGeometry(3.7,2.1,4),roof);
+r.rotation.y=Math.PI/4;r.position.y=4.3;g.add(r);
+const deck=new THREE.Mesh(new THREE.BoxGeometry(6,.25,5),sand);
+deck.position.set(0,.65,0);g.add(deck);
+g.position.set(x,0,z);
+g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});
+scene.add(g);
+}
+house(-14,-22);
+house(-23,-31);
+house(-10,-38);
 
-  const stem = new THREE.Mesh(
-    new THREE.CylinderGeometry(.22, .35, 3, 10), trunk
-  );
-  stem.position.y = 1.5;
-  stem.castShadow = true;
-  tree.add(stem);
+// Jambatan
+const bridge=new THREE.Mesh(new THREE.BoxGeometry(5,.35,18),wood);
+bridge.position.set(10,.55,-30);
+bridge.rotation.y=-.18;
+bridge.castShadow=true;
+scene.add(bridge);
 
-  kpSphere(tree, 1.35, green, 0, 3.5, 0, 1, 1.15, 1);
-  kpSphere(tree, .9, leaf2, -.65, 4, .15);
-  kpSphere(tree, .85, leaf2, .65, 4.1, -.1);
+// WIRA 3D
+const player=new THREE.Group();
+let body;
+const heroNames={arnab:'Arnab',hamster:'Hamster',kucing:'Kucing',cenderawasih:'Cenderawasih',kijang:'Kijang'};
+const heroInfo={
+arnab:'Arnab — lincah, ingin tahu dan berani mencuba.',
+hamster:'Hamster — tabah, teliti dan tidak mudah berputus asa.',
+kucing:'Kucing — tangkas, peka dan bijak memerhati.',
+cenderawasih:'Cenderawasih — ceria, kreatif dan berpandangan luas.',
+kijang:'Kijang — pantas, fokus dan cekap mencari jalan.'
+};
+let selectedHero=localStorage.getItem('kp2027_hero')||'arnab';
 
-  kpWorld.add(tree);
+function buildHero(type){
+while(player.children.length)player.remove(player.children[0]);
+
+const fur={arnab:0x62a96b,hamster:0xc99559,kucing:0x8795a2,cenderawasih:0x247b78,kijang:0xb88755}[type];
+const coat=mat(fur);
+const cream=mat(type==='cenderawasih'?0xffcf69:0xf4dfbd);
+const dark=mat(0x26343a);
+const shine=new THREE.MeshStandardMaterial({color:0xffffff,emissive:0x24313a,roughness:.3});
+
+const ball=(x,y,z,sx,sy,sz,m)=>{
+const o=new THREE.Mesh(new THREE.SphereGeometry(1,18,14),m);
+o.position.set(x,y,z);
+o.scale.set(sx,sy,sz);
+o.castShadow=true;
+player.add(o);
+return o;
+};
+
+body=ball(0,1.0,0,.52,.68,.42,coat);
+ball(0,1.88,-.02,.48,.46,.43,coat);
+ball(-.16,1.91,.36,.075,.09,.045,shine);
+ball(.16,1.91,.36,.075,.09,.045,shine);
+ball(-.16,1.91,.4,.03,.05,.02,dark);
+ball(.16,1.91,.4,.03,.05,.02,dark);
+ball(0,1.75,.43,.09,.06,.05,dark);
+
+if(type==='arnab'){
+for(const x of [-.23,.23]){
+const ear=ball(x,2.52,-.04,.14,.48,.13,coat);
+ear.rotation.z=x*.65;
+ball(x,2.52,.075,.07,.34,.025,cream).rotation.z=x*.65;
+}
+}else if(type==='hamster'){
+ball(-.42,2.08,0,.16,.17,.12,cream);
+ball(.42,2.08,0,.16,.17,.12,cream);
+ball(0,1.55,.35,.28,.22,.13,cream);
+}else if(type==='kucing'){
+for(const x of [-.29,.29]){
+const ear=new THREE.Mesh(new THREE.ConeGeometry(.18,.42,4),coat);
+ear.position.set(x,2.25,-.02);
+ear.rotation.z=x*.6;
+player.add(ear);
+}
+ball(0,1.7,.35,.18,.12,.1,cream);
+}else if(type==='cenderawasih'){
+const beak=new THREE.Mesh(new THREE.ConeGeometry(.13,.48,5),mat(0xffc44e));
+beak.rotation.x=Math.PI/2;
+beak.position.set(0,1.82,.62);
+player.add(beak);
+for(let i=0;i<3;i++){
+const feather=ball((i-1)*.17,2.45,-.18,.09,.5,.08,mat([0xffc94d,0x2f9a83,0x2474a5][i]));
+feather.rotation.z=(i-1)*-.35;
+}
+for(const x of [-.48,.48])ball(x,1.12,-.02,.3,.28,.16,mat(0x31a6a0));
+}else if(type==='kijang'){
+for(const x of [-.27,.27]){
+const ant=new THREE.Mesh(new THREE.CylinderGeometry(.035,.07,.55,7),mat(0x6b5036));
+ant.position.set(x,2.42,-.02);
+ant.rotation.z=x*.8;
+player.add(ant);
+const tip=new THREE.Mesh(new THREE.ConeGeometry(.07,.22,6),mat(0x6b5036));
+tip.position.set(x*1.5,2.72,-.02);
+player.add(tip);
+}
 }
 
-for (let i=0; i<38; i++) {
-  const angle = i * 2.399;
-  const radius = 17 + (i % 5) * 3;
-  kpTree(Math.cos(angle)*radius, Math.sin(angle)*radius,
-    .8 + (i%4)*.13);
+for(const x of [-.25,.25])ball(x,.35,0,.13,.36,.14,coat);
+const shield=new THREE.Mesh(new THREE.CylinderGeometry(.32,.38,.12,8),mat(0xdaa943));
+shield.rotation.z=Math.PI/2;
+shield.position.set(.58,1.0,.1);
+player.add(shield);
+player.position.set(0,0,5);
 }
+buildHero(selectedHero);
+scene.add(player);
 
-// RUMAH KAMPUNG
-const kpHouse = new THREE.Group();
-kpHouse.position.set(-10, 0, -9);
-kpWorld.add(kpHouse);
+// Penanda misi
+const markers=[];
+const markerPositions=[[-5,-8],[-18,-25],[18,-47],[1,-62],[26,-77]];
 
-kpBox(kpHouse, 6, .35, 5, wood, 0, 1.5, 0);
-kpBox(kpHouse, 5.5, 2.6, 4.5, sand, 0, 2.9, 0);
-
-// Tiang rumah
-for (const x of [-2.4, 2.4]) {
-  for (const z of [-1.8, 1.8]) {
-    kpBox(kpHouse, .22, 1.6, .22, trunk, x, .7, z);
-  }
+function makeMarker(i,pos){
+const grp=new THREE.Group();
+const pole=new THREE.Mesh(new THREE.CylinderGeometry(.09,.12,2,8),wood);
+pole.position.y=1;grp.add(pole);
+const plate=new THREE.Mesh(new THREE.BoxGeometry(1.35,.85,.16),mat(0xffd36d));
+plate.position.y=2;grp.add(plate);
+const num=new THREE.Mesh(new THREE.BoxGeometry(.55,.55,.18),mat([0x3b8760,0x4777a4,0x4b9a85,0x9b6a9a,0xb17a37][i]));
+num.position.set(0,2,.12);grp.add(num);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.08,8,24),new THREE.MeshBasicMaterial({color:0xffe18a}));
+ring.rotation.x=Math.PI/2;
+ring.position.y=.12;
+grp.add(ring);
+grp.position.set(pos[0],0,pos[1]);
+grp.userData.mission=i;
+scene.add(grp);
+markers.push(grp);
 }
+markerPositions.forEach((p,i)=>makeMarker(i,p));
 
-// Bumbung
-const kpRoof = new THREE.Mesh(
-  new THREE.ConeGeometry(4.3, 2.4, 4),
-  roof
+// Kawalan kamera
+let yaw=0,pitch=.27,joyX=0,joyY=0,running=false,velocityY=0,onGround=true,near=-1;
+const camOffset=new THREE.Vector3();
+
+function updateCamera(){
+const dist=8.2;
+const target=new THREE.Vector3(player.position.x,player.position.y+1.25,player.position.z);
+const horiz=Math.cos(pitch)*dist;
+camera.position.set(
+target.x+Math.sin(yaw)*horiz,
+target.y+Math.sin(pitch)*dist+1.4,
+target.z+Math.cos(yaw)*horiz
 );
-kpRoof.position.set(0, 5.3, 0);
-kpRoof.rotation.y = Math.PI/4;
-kpRoof.castShadow = true;
-kpHouse.add(kpRoof);
-
-// Tangga rumah
-for (let i=0; i<4; i++) {
-  kpBox(kpHouse, 1.5, .22, .65, wood,
-    0, .35+i*.28, 3+i*.55);
+camera.lookAt(target);
 }
 
-// SUNGAI
-const kpRiver = new THREE.Mesh(
-  new THREE.PlaneGeometry(48, 7),
-  water
+let dragging=false,lastX=0,lastY=0;
+renderer.domElement.addEventListener('pointerdown',e=>{
+if(e.clientX>innerWidth*.38){
+dragging=true;lastX=e.clientX;lastY=e.clientY;
+renderer.domElement.setPointerCapture(e.pointerId);
+}
+});
+renderer.domElement.addEventListener('pointermove',e=>{
+if(!dragging)return;
+const dx=e.clientX-lastX,dy=e.clientY-lastY;
+lastX=e.clientX;lastY=e.clientY;
+yaw-=dx*.006;
+pitch=Math.max(-.05,Math.min(.65,pitch+dy*.003));
+});
+renderer.domElement.addEventListener('pointerup',()=>dragging=false);
+renderer.domElement.addEventListener('pointercancel',()=>dragging=false);
+
+const joy=$('joy'),stick=$('stick');
+let joyPointer=null;
+function setJoy(e){
+const r=joy.getBoundingClientRect();
+const cx=r.left+r.width/2,cy=r.top+r.height/2;
+let dx=e.clientX-cx,dy=e.clientY-cy;
+const max=43,len=Math.hypot(dx,dy);
+if(len>max){dx=dx/len*max;dy=dy/len*max}
+joyX=dx/max;joyY=dy/max;
+stick.style.transform=`translate(${dx}px,${dy}px)`;
+}
+joy.addEventListener('pointerdown',e=>{
+joyPointer=e.pointerId;
+joy.setPointerCapture(e.pointerId);
+setJoy(e);
+});
+joy.addEventListener('pointermove',e=>{
+if(e.pointerId===joyPointer)setJoy(e);
+});
+function joyEnd(){
+joyPointer=null;joyX=joyY=0;
+stick.style.transform='translate(0,0)';
+}
+joy.addEventListener('pointerup',joyEnd);
+joy.addEventListener('pointercancel',joyEnd);
+
+$('runBtn').onpointerdown=()=>running=true;
+$('runBtn').onpointerup=()=>running=false;
+$('runBtn').onpointerleave=()=>running=false;
+
+$('jumpBtn').onclick=()=>{
+if(onGround){
+velocityY=7.2;
+onGround=false;
+sfx('jump');
+}
+};
+
+function nearestMarker(){
+let best=-1,d=999;
+const nextIndex=missions.findIndex((_,i)=>!state.done.includes(i));
+markers.forEach((m,i)=>{
+if(i!==nextIndex||state.done.includes(i))return;
+const dx=player.position.x-m.position.x;
+const dz=player.position.z-m.position.z;
+const dd=Math.hypot(dx,dz);
+if(dd<d){d=dd;best=i}
+});
+return d<4.5?best:-1;
+}
+
+let missionAnswered=false;
+
+function openMission(i){
+if(i<0)return;
+near=i;missionAnswered=false;
+const m=missions[i];
+$('missionNo').textContent=`MISI ${i+1}/5`;
+$('missionTitle').textContent=m.title;
+$('missionStory').textContent=m.story;
+$('feedback').textContent='';
+$('continueBtn').style.display='none';
+$('choices').innerHTML=m.choices.map((c,j)=>
+`<button class="choice" data-choice="${j}">${String.fromCharCode(65+j)}. ${c[0]}</button>`
+).join('');
+document.querySelectorAll('[data-choice]').forEach(b=>
+b.onclick=()=>choose(i,Number(b.dataset.choice))
 );
-kpRiver.rotation.x = -Math.PI/2;
-kpRiver.position.set(3, .035, 9);
-kpWorld.add(kpRiver);
-
-// TEPI SUNGAI
-kpBox(kpWorld, 48, .25, 1.2, sand, 3, .05, 5.1);
-kpBox(kpWorld, 48, .25, 1.2, sand, 3, .05, 12.9);
-
-// JAMBATAN KAYU
-const kpBridge = new THREE.Group();
-kpBridge.position.set(3, .45, 9);
-kpWorld.add(kpBridge);
-
-kpBox(kpBridge, 3, .3, 9, wood, 0, 0, 0);
-
-for (let i=0; i<12; i++) {
-  kpBox(kpBridge, 3.1, .08, .08, kpDarkBrown,
-    0, .2, -4.2+i*.76);
+panel('missionPanel');
+sfx('tap');
 }
 
-for (const x of [-1.35, 1.35]) {
-  kpBox(kpBridge, .12, .65, 9, trunk, x, .45, 0);
+function choose(i,j){
+if(missionAnswered)return;
+missionAnswered=true;
+const pts=missions[i].choices[j][1];
+const oldLevel=level();
+state.score+=pts;
+state.xp+=pts;
+state.done.push(i);
+
+if(pts>0){
+if(i===0){state.traits.aktif+=2;state.traits.pimpin+=1}
+else if(i===1){state.traits.penyayang+=2;state.traits.pimpin+=1}
+else if(i===2){state.traits.aktif+=2;state.traits.tahan+=1}
+else if(i===3){state.traits.penyayang+=2;state.traits.tahan+=1}
+else if(i===4){state.traits.tahan+=2;state.traits.pimpin+=1}
 }
 
-// BATU DI TEPI SUNGAI
-for (let i=0; i<16; i++) {
-  const rock = new THREE.Mesh(
-    new THREE.DodecahedronGeometry(.35+(i%3)*.12, 0),
-    kpStone
-  );
-  rock.position.set(
-    -17+i*2.4,
-    .18,
-    i%2===0 ? 4.2 : 13.8
-  );
-  rock.castShadow = true;
-  kpWorld.add(rock);
+state.index=Math.min(i+1,4);
+save();
+updateHud();
+
+document.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);
+
+$('feedback').textContent=pts===10?
+'Pilihan cemerlang! Kamu memperoleh 10 Mata dan 10 XP.':
+pts>0?
+`Kamu memperoleh ${pts} Mata dan ${pts} XP. Terus belajar daripada setiap pengalaman.`:
+'Pilihan direkodkan. Setiap pengalaman memberi peluang untuk belajar.';
+
+$('continueBtn').style.display='block';
+sfx(pts>=10?'good':'bad');
+if(level()>oldLevel)setTimeout(()=>sfx('level'),350);
+
+$('rewardTitle').textContent=pts>=10?'PILIHAN CEMERLANG!':'MISI DIREKODKAN';
+$('rewardText').textContent=`+${pts} MATA • +${pts} XP`;
+$('reward').classList.add('show');
+sfx('open');
 }
 
-// ==========================================
-// LIMA WIRA KP2027
-// ==========================================
-
-const kpHeroes = [];
-let kpSelectedHero = 0;
-let kpHero;
-
-function kpMakeHero(type) {
-  const hero = new THREE.Group();
-
-  let bodyColor = 0x55a95b;
-  let earColor = 0x55a95b;
-
-  if (type===1) bodyColor = 0xb58b62;
-  if (type===2) bodyColor = 0xd5a45e;
-  if (type===3) bodyColor = 0xe7bd52;
-  if (type===4) bodyColor = 0x9b6846;
-
-  const bodyMat = kpMat(bodyColor);
-  const bellyMat = kpMat(0xffe4bd);
-  const eyeMat = kpMat(0xffffff);
-  const pupilMat = kpMat(0x171717);
-
-  // Badan
-  kpSphere(hero, .65, bodyMat, 0, 1, 0, .85, 1.05, .7);
-
-  // Dada
-  kpSphere(hero, .38, bellyMat, 0, .95, .48, 1, 1.1, .35);
-
-  // Kepala
-  kpSphere(hero, .55, bodyMat, 0, 2, 0, 1, .9, .9);
-
-  // Mata
-  for (const x of [-.2,.2]) {
-    kpSphere(hero, .13, eyeMat, x, 2.1, .48);
-    kpSphere(hero, .065, pupilMat, x, 2.1, .59);
-  }
-
-  // Hidung
-  kpSphere(hero, .09, kpMat(0x45302a), 0, 1.91, .57);
-
-  // Telinga mengikut jenis
-  if (type===0) {
-    kpSphere(hero, .19, bodyMat, -.3, 2.75, 0, .55, 2.2, .5);
-    kpSphere(hero, .19, bodyMat, .3, 2.75, 0, .55, 2.2, .5);
-  } else if (type===1) {
-    kpSphere(hero, .17, bodyMat, -.35, 2.55, 0);
-    kpSphere(hero, .17, bodyMat, .35, 2.55, 0);
-  } else if (type===2) {
-    kpSphere(hero, .22, bodyMat, -.35, 2.5, 0, .8, 1.2, .5);
-    kpSphere(hero, .22, bodyMat, .35, 2.5, 0, .8, 1.2, .5);
-  } else if (type===3) {
-    // Jambul cenderawasih
-    kpSphere(hero, .12, kpMat(0xffb52e), 0, 2.7, 0, .7, 2, .7);
-    kpSphere(hero, .1, kpMat(0xff8d39), .15, 2.85, 0);
-    // Sayap
-    kpSphere(hero, .3, kpMat(0x238e8b), -.65, 1.4, 0, .5, 1.3, .35);
-    kpSphere(hero, .3, kpMat(0x238e8b), .65, 1.4, 0, .5, 1.3, .35);
-  } else {
-    // Tanduk kecil kijang
-    for (const x of [-.3,.3]) {
-      const horn = new THREE.Mesh(
-        new THREE.CylinderGeometry(.035,.09,.65,8),
-        kpCream
-      );
-      horn.position.set(x,2.8,0);
-      horn.rotation.z = x<0 ? .35 : -.35;
-      hero.add(horn);
-    }
-  }
-
-  // Kaki
-  for (const x of [-.28,.28]) {
-    kpSphere(hero, .19, bodyMat, x, .35, .05, .8, 1.2, .8);
-  }
-
-  // Perisai kecil pada lengan
-  const shield = new THREE.Mesh(
-    new THREE.CylinderGeometry(.3,.3,.12,6),
-    kpGold
-  );
-  shield.position.set(.67,1.35,.25);
-  shield.rotation.x = Math.PI/2;
-  shield.rotation.z = .15;
-  hero.add(shield);
-
-  // Tapak bayang
-  const shadow = new THREE.Mesh(
-    new THREE.CircleGeometry(.75,24),
-    new THREE.MeshBasicMaterial({
-      color:0x17351d,
-      transparent:true,
-      opacity:.25
-    })
-  );
-  shadow.rotation.x = -Math.PI/2;
-  shadow.position.y = .03;
-  hero.add(shadow);
-
-  hero.userData.heroType = type;
-  hero.userData.shield = shield;
-
-  return hero;
-}
-
-for (let i=0; i<5; i++) {
-  const hero = kpMakeHero(i);
-  hero.visible = false;
-  kpHeroes.push(hero);
-  scene.add(hero);
-}
-
-kpHero = kpHeroes[0];
-kpHero.visible = true;
-kpHero.position.set(0,0,0);
-
-// PILIH WIRA
-window.kpChooseHero = function(index) {
-  if (index<0 || index>=kpHeroes.length) return;
-
-  kpHeroes.forEach(h => h.visible=false);
-  kpSelectedHero = index;
-  kpHero = kpHeroes[index];
-  kpHero.visible = true;
-  kpHero.position.set(0,0,0);
-
-  if (typeof updateHUD === "function") updateHUD();
-  if (typeof playSound === "function") playSound(660);
+$('rewardClose').onclick=()=>{
+$('reward').classList.remove('show');
 };
 
-// ==========================================
-// KAWALAN SENTUH
-// ==========================================
+$('continueBtn').onclick=()=>{
+panel('');
+if(state.done.length===5){
+state.finished=true;
+save();
+$('finishSummary').textContent=
+`${state.score} Mata • ${state.xp} XP • Tahap ${level()}. Semua lima misi telah diselesaikan.`;
+panel('finishPanel');
+}else{
+$('hint').textContent='Teruskan meneroka dan cari tanda misi yang seterusnya.';
+}
+};
 
-let kpMoveX = 0;
-let kpMoveZ = 0;
-let kpMoving = false;
-let kpJumping = false;
-let kpVelocityY = 0;
-let kpFacing = 0;
+$('actionBtn').onclick=()=>{
+audioStart();
+if(near>=0)openMission(near);
+else sfx('tap');
+};
 
-const kpKeys = {};
+function renderProgress(){
+$('progressSummary').textContent=`${state.score} Mata • ${state.xp} XP • Tahap ${level()}`;
+$('traitList').innerHTML=Object.keys(traitNames).map(k=>
+`<div class="trait">${traitNames[k]} <span style="float:right">${state.traits[k]} XP karakter</span><div class="bar"><span style="width:${Math.min(100,state.traits[k]*10)}%"></span></div></div>`
+).join('');
+}
 
-window.addEventListener("keydown", e => {
-  kpKeys[e.key.toLowerCase()] = true;
+$('menuBtn').onclick=()=>{
+audioStart();renderProgress();panel('progressPanel');
+};
+$('backBtn').onclick=()=>panel('');
+$('progressBtn').onclick=()=>{
+renderProgress();panel('progressPanel');
+};
+$('resetBtn').onclick=()=>{
+if(confirm('Mula semula? Kemajuan KP2027 akan dipadam.')){
+state=fresh();
+save();
+updateHud();
+markers.forEach(m=>m.visible=true);
+renderProgress();
+}
+};
+$('finishBack').onclick=()=>panel('');
+$('playBtn').onclick=()=>{
+audioStart();panel('heroPanel');
+};
+
+document.querySelectorAll('[data-hero]').forEach(b=>{
+b.onclick=()=>{
+selectedHero=b.dataset.hero;
+document.querySelectorAll('[data-hero]').forEach(x=>x.classList.toggle('active',x===b));
+$('heroInfo').textContent=heroInfo[selectedHero];
+buildHero(selectedHero);
+sfx('tap');
+};
 });
 
-window.addEventListener("keyup", e => {
-  kpKeys[e.key.toLowerCase()] = false;
+$('chooseHeroBtn').onclick=()=>{
+localStorage.setItem('kp2027_hero',selectedHero);
+audioStart();
+panel('');
+$('hint').textContent='Wira kamu: '+heroNames[selectedHero]+' • Terokai dunia dan temui misi pertama.';
+sfx('good');
+};
+$('heroBackBtn').onclick=()=>panel('homePanel');
+
+// ANIMASI PERMAINAN
+const clock=new THREE.Clock();
+
+function animate(){
+requestAnimationFrame(animate);
+const dt=Math.min(clock.getDelta(),.04);
+
+const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
+const move=new THREE.Vector3();
+
+move.addScaledVector(forward,-joyY);
+move.addScaledVector(right,joyX);
+
+if(move.lengthSq()>1)move.normalize();
+
+const speed=running?9:5.2;
+
+if(move.lengthSq()>.001){
+player.position.addScaledVector(move,speed*dt);
+player.rotation.y=Math.atan2(move.x,move.z);
+body.rotation.z=Math.sin(clock.elapsedTime*12)*.07;
+}else{
+body.rotation.z=0;
+}
+
+velocityY-=18*dt;
+player.position.y+=velocityY*dt;
+
+if(player.position.y<0){
+player.position.y=0;
+velocityY=0;
+onGround=true;
+}
+
+player.position.x=THREE.MathUtils.clamp(player.position.x,-48,48);
+player.position.z=THREE.MathUtils.clamp(player.position.z,-96,18);
+
+markers.forEach((m,i)=>{
+m.visible=!state.done.includes(i);
+m.children[3].rotation.z=clock.elapsedTime*.8;
+m.children[3].position.y=.12+Math.sin(clock.elapsedTime*2+i)*.08;
 });
 
-// Kawalan joystick jika tersedia dalam paparan
-const kpJoy = document.getElementById("joy");
-const kpStick = document.getElementById("stick");
+near=nearestMarker();
+$('nearMsg').classList.toggle('show',near>=0&&!$('missionPanel').classList.contains('show'));
 
-if (kpJoy && kpStick) {
-  let kpTouchId = null;
-
-  function kpJoyMove(e) {
-    const rect = kpJoy.getBoundingClientRect();
-    const cx = rect.left + rect.width/2;
-    const cy = rect.top + rect.height/2;
-    const dx = e.clientX-cx;
-    const dy = e.clientY-cy;
-    const max = rect.width*.32;
-    const len = Math.max(1,Math.hypot(dx,dy));
-    const ratio = Math.min(1,max/len);
-
-    kpMoveX = dx/len*ratio;
-    kpMoveZ = dy/len*ratio;
-
-    kpStick.style.transform =
-      `translate(${kpMoveX*max}px,${kpMoveZ*max}px)`;
-  }
-
-  kpJoy.addEventListener("pointerdown", e => {
-    kpTouchId = e.pointerId;
-    kpJoy.setPointerCapture(e.pointerId);
-    kpJoyMove(e);
-  });
-
-  kpJoy.addEventListener("pointermove", e => {
-    if (e.pointerId===kpTouchId) kpJoyMove(e);
-  });
-
-  function kpJoyEnd(e) {
-    if (e.pointerId!==kpTouchId) return;
-    kpTouchId=null;
-    kpMoveX=0;
-    kpMoveZ=0;
-    kpStick.style.transform="translate(0,0)";
-  }
-
-  kpJoy.addEventListener("pointerup",kpJoyEnd);
-  kpJoy.addEventListener("pointercancel",kpJoyEnd);
+updateCamera();
+renderer.render(scene,camera);
 }
 
-// LOMPAT
-function kpJump() {
-  if (kpJumping) return;
-  kpJumping=true;
-  kpVelocityY=7;
-  if (typeof playSound==="function") playSound(520);
-}
+animate();
 
-const kpJumpButton =
-  document.getElementById("jumpBtn") ||
-  document.getElementById("jumpButton");
-
-if (kpJumpButton) {
-  kpJumpButton.addEventListener("pointerdown",kpJump);
-}
-
-// KAMERA MENGIKUTI WIRA
-const kpCameraOffset = new THREE.Vector3(0,7,11);
-const kpCameraTarget = new THREE.Vector3();
-
-camera.position.set(0,7,11);
-camera.lookAt(0,1,0);
-
-// ==========================================
-// ANIMASI & PERGERAKAN
-// ==========================================
-
-const kpClock = new THREE.Clock();
-let kpElapsed = 0;
-
-function kpAnimate() {
-  requestAnimationFrame(kpAnimate);
-
-  const delta = Math.min(kpClock.getDelta(),.04);
-  kpElapsed += delta;
-
-  // Keyboard dan joystick
-  let mx = kpMoveX;
-  let mz = kpMoveZ;
-
-  if (kpKeys["arrowleft"] || kpKeys["a"]) mx = -1;
-  if (kpKeys["arrowright"] || kpKeys["d"]) mx = 1;
-  if (kpKeys["arrowup"] || kpKeys["w"]) mz = -1;
-  if (kpKeys["arrowdown"] || kpKeys["s"]) mz = 1;
-
-  const moving = Math.abs(mx)>.08 || Math.abs(mz)>.08;
-
-  if (moving) {
-    const length = Math.hypot(mx,mz);
-    mx /= length;
-    mz /= length;
-
-    kpHero.position.x += mx*5*delta;
-    kpHero.position.z += mz*5*delta;
-    kpFacing = Math.atan2(mx,mz);
-    kpHero.rotation.y = kpFacing;
-  }
-
-  // Hadkan pergerakan dalam kawasan permainan
-  kpHero.position.x = THREE.MathUtils.clamp(kpHero.position.x,-28,28);
-  kpHero.position.z = THREE.MathUtils.clamp(kpHero.position.z,-25,25);
-
-  // Lompatan
-  if (kpJumping) {
-    kpHero.position.y += kpVelocityY*delta;
-    kpVelocityY -= 18*delta;
-
-    if (kpHero.position.y<=0) {
-      kpHero.position.y=0;
-      kpJumping=false;
-      kpVelocityY=0;
-    }
-  }
-
-  // Animasi badan
-  const bounce = moving ? Math.abs(Math.sin(kpElapsed*11))*.09 : 0;
-  kpHero.children[0].position.y = 1+bounce;
-  kpHero.children[2].position.y = 2+bounce;
-
-  // Animasi perisai
-  const shield = kpHero.userData.shield;
-  if (shield) shield.rotation.y = Math.sin(kpElapsed*2)*.12;
-
-  // Kamera mengikuti wira
-  kpCameraTarget.set(
-    kpHero.position.x,
-    1.2,
-    kpHero.position.z
-  );
-
-  const desiredCamera = kpCameraTarget.clone().add(kpCameraOffset);
-  camera.position.lerp(desiredCamera,Math.min(1,delta*3));
-  camera.lookAt(kpCameraTarget);
-
-  // Air sungai berkilau perlahan
-  kpRiver.position.y = .035 + Math.sin(kpElapsed*1.5)*.018;
-
-  renderer.render(scene,camera);
-}
-
-kpAnimate();
-
-// UBAH SAIZ PAPARAN
-window.addEventListener("resize",() => {
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
+addEventListener('resize',()=>{
+camera.aspect=innerWidth/innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.65));
 });
-
-// SEDIAKAN PAPARAN
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-renderer.setSize(window.innerWidth,window.innerHeight);
-
-document.body.style.margin="0";
-document.body.style.overflow="hidden";
-
-console.log("KP2027: Dunia Borneo dan lima wira telah dimuatkan.");
- // AKTIFKAN BUTANG MENU KP2027
-
-$("playBtn").onclick = () => {
-  audioStart();
-  sfx("open");
-  panel("heroPanel");
-};
-
-$("progressBtn").onclick = () => {
-  audioStart();
-  panel("progressPanel");
-};
-
-$("heroBackBtn").onclick = () => panel("homePanel");
-$("backBtn").onclick = () => panel("homePanel");
-$("menuBtn").onclick = () => panel("homePanel");
-
-$("chooseHeroBtn").onclick = () => {
-  if (typeof window.kpChooseHero === "function") {
-    window.kpChooseHero(window.kpSelectedHero || 0);
-    panel(null);
-  }
-};
 </script>
 </body>
 </html>
